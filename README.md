@@ -1,2 +1,2 @@
-# objects-in-mirror
-Brackeys Game Jam 2026.1 game
+# Brackeys Game Jam 2026.1 game
+
