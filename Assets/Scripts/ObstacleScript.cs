@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class LogicScript : MonoBehaviour
+public class ObstacleScript : MonoBehaviour
 {
     public GameObject obstaclePrefab;
     public BoxCollider2D backgroundCollider;
