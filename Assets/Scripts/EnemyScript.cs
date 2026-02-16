@@ -11,10 +11,22 @@ public class EnemyScript : MonoBehaviour
     public float pathRecalcInterval = 0.5f;
     public float gridBufferMultiplier = 1.8f;
 
+    [Header("Vision Cone")]
+    public float visionRange = 6f;
+    public float visionHalfAngle = 30f;
+    public float alertDuration = 2f;
+    public float alertSpeedMultiplier = 1.5f;
+
     private Rigidbody2D rb;
     private Collider2D myCollider;
     private Collider2D playerCollider;
     private Vector2 currentDir;
+
+    // Alert state
+    private bool isAlerted;
+    private float alertTimer;
+    private float baseMoveSpeed;
+    private float basePathRecalcInterval;
 
     // Grid
     private bool[,] grid;
@@ -33,6 +45,8 @@ public class EnemyScript : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
         playerCollider = player.GetComponent<Collider2D>();
         currentDir = ((Vector2)player.position - rb.position).normalized;
+        baseMoveSpeed = moveSpeed;
+        basePathRecalcInterval = pathRecalcInterval;
 
         Invoke(nameof(BuildGrid), 0.1f);
     }
@@ -84,12 +98,60 @@ public class EnemyScript : MonoBehaviour
     {
         if (grid == null) return;
 
+        // Vision cone check
+        if (CanSeePlayer())
+        {
+            if (!isAlerted)
+            {
+                isAlerted = true;
+                moveSpeed = baseMoveSpeed * alertSpeedMultiplier;
+                pathRecalcInterval = basePathRecalcInterval / 2f;
+                RecalculatePath();
+                pathTimer = pathRecalcInterval;
+            }
+            alertTimer = alertDuration;
+        }
+
+        // Alert cooldown
+        if (isAlerted)
+        {
+            alertTimer -= Time.deltaTime;
+            if (alertTimer <= 0f)
+            {
+                isAlerted = false;
+                moveSpeed = baseMoveSpeed;
+                pathRecalcInterval = basePathRecalcInterval;
+            }
+        }
+
         pathTimer -= Time.deltaTime;
         if (pathTimer <= 0f)
         {
             RecalculatePath();
             pathTimer = pathRecalcInterval;
         }
+    }
+
+    bool CanSeePlayer()
+    {
+        Vector2 toPlayer = (Vector2)player.position - rb.position;
+        float distance = toPlayer.magnitude;
+
+        if (distance > visionRange)
+            return false;
+
+        float angle = Vector2.Angle(currentDir, toPlayer);
+        if (angle > visionHalfAngle)
+            return false;
+
+        // Raycast to check for obstacles blocking line of sight
+        Vector2 dir = toPlayer.normalized;
+        float skinOffset = 0.1f;
+        RaycastHit2D hit = Physics2D.Raycast(rb.position + dir * skinOffset, dir, distance - skinOffset);
+        if (hit.collider != null && hit.collider != myCollider && hit.collider != playerCollider && !hit.collider.isTrigger)
+            return false;
+
+        return true;
     }
 
     void RecalculatePath()
@@ -285,5 +347,46 @@ public class EnemyScript : MonoBehaviour
 
         result.Reverse();
         return result;
+    }
+
+    // Only for debug
+    void OnDrawGizmos()
+    {
+        if (rb == null) return;
+
+        Vector2 origin = rb.position;
+        Vector2 forward = currentDir.sqrMagnitude > 0f ? currentDir.normalized : Vector2.up;
+
+        float halfRad = visionHalfAngle * Mathf.Deg2Rad;
+        Vector2 leftDir = new Vector2(
+            forward.x * Mathf.Cos(halfRad) - forward.y * Mathf.Sin(halfRad),
+            forward.x * Mathf.Sin(halfRad) + forward.y * Mathf.Cos(halfRad)
+        );
+        Vector2 rightDir = new Vector2(
+            forward.x * Mathf.Cos(-halfRad) - forward.y * Mathf.Sin(-halfRad),
+            forward.x * Mathf.Sin(-halfRad) + forward.y * Mathf.Cos(-halfRad)
+        );
+
+        Gizmos.color = isAlerted ? Color.red : Color.yellow;
+
+        // Draw the two edge lines
+        Gizmos.DrawLine(origin, origin + leftDir * visionRange);
+        Gizmos.DrawLine(origin, origin + rightDir * visionRange);
+
+        // Draw the arc
+        int segments = 20;
+        float startAngle = Mathf.Atan2(rightDir.y, rightDir.x);
+        float endAngle = Mathf.Atan2(leftDir.y, leftDir.x);
+        if (endAngle < startAngle) endAngle += 2f * Mathf.PI;
+
+        Vector2 prev = origin + rightDir * visionRange;
+        for (int i = 1; i <= segments; i++)
+        {
+            float t = (float)i / segments;
+            float a = Mathf.Lerp(startAngle, endAngle, t);
+            Vector2 point = origin + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * visionRange;
+            Gizmos.DrawLine(prev, point);
+            prev = point;
+        }
     }
 }

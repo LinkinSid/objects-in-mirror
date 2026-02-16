@@ -763,12 +763,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyScript
   moveSpeed: 2
   turnSpeed: 5
-  playerBias: 0.5
-  wanderChangeTime: 2
   player: {fileID: 1640470049}
   backgroundCollider: {fileID: 1871859501}
   cellSize: 0.5
   pathRecalcInterval: 2
+  gridBufferMultiplier: 1.8
+  visionRange: 3
+  visionHalfAngle: 45
+  alertDuration: 3
+  alertSpeedMultiplier: 1.5
 --- !u!50 &1144352821
 Rigidbody2D:
   serializedVersion: 5
