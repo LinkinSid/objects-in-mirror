@@ -5,12 +5,21 @@ public class PlayerScript : MonoBehaviour
 {
     public float moveSpeed = 5f;
 
+    [Header("Shadow Swim")]
+    public Sprite swimSprite;
+
     private Rigidbody2D rb;
     private Vector2 moveInput;
+    private SpriteRenderer sr;
+    private ShadowDetector shadowDetector;
+    private Sprite normalSprite;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        shadowDetector = GetComponent<ShadowDetector>();
+        normalSprite = sr.sprite;
     }
 
     public void OnMove(InputValue value)
@@ -18,8 +27,31 @@ public class PlayerScript : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
+    void Update()
+    {
+        UpdateSprite();
+    }
+
+    void UpdateSprite()
+    {
+        if (sr == null || shadowDetector == null) return;
+
+        bool canSwim = shadowDetector.isShadowSwimming
+            && shadowDetector.stress < shadowDetector.maxStressValue;
+
+        if (canSwim && swimSprite != null)
+            sr.sprite = swimSprite;
+        else
+            sr.sprite = normalSprite;
+    }
+
     void FixedUpdate()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
+        float speed = moveSpeed;
+
+        if (shadowDetector != null && shadowDetector.isShadowSwimming)
+            speed *= shadowDetector.swimSpeedValue;
+
+        rb.linearVelocity = moveInput * speed;
     }
 }

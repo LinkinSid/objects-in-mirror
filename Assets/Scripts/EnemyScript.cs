@@ -17,9 +17,13 @@ public class EnemyScript : MonoBehaviour
     public float alertDuration = 2f;
     public float alertSpeedMultiplier = 1.5f;
 
+    [Header("Wander")]
+    public float wanderRadius = 4f;
+
     private Rigidbody2D rb;
     private Collider2D myCollider;
     private Collider2D playerCollider;
+    private ShadowDetector playerShadow;
     private Vector2 currentDir;
 
     // Alert state
@@ -27,6 +31,11 @@ public class EnemyScript : MonoBehaviour
     private float alertTimer;
     private float baseMoveSpeed;
     private float basePathRecalcInterval;
+
+    // Wander state
+    private Vector2 wanderTarget;
+    private bool hasWanderTarget;
+    private bool wasPlayerHidden;
 
     // Grid
     private bool[,] grid;
@@ -44,6 +53,7 @@ public class EnemyScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
         playerCollider = player.GetComponent<Collider2D>();
+        playerShadow = player.GetComponent<ShadowDetector>();
         currentDir = ((Vector2)player.position - rb.position).normalized;
         baseMoveSpeed = moveSpeed;
         basePathRecalcInterval = pathRecalcInterval;
@@ -134,6 +144,10 @@ public class EnemyScript : MonoBehaviour
 
     bool CanSeePlayer()
     {
+        // Player is invisible while shadow swimming, unless stress is full
+        if (IsPlayerHidden())
+            return false;
+
         Vector2 toPlayer = (Vector2)player.position - rb.position;
         float distance = toPlayer.magnitude;
 
@@ -154,21 +168,64 @@ public class EnemyScript : MonoBehaviour
         return true;
     }
 
+    bool IsPlayerHidden()
+    {
+        if (playerShadow == null || !playerShadow.isShadowSwimming)
+            return false;
+
+        // Full stress reveals the player even in shadows
+        return playerShadow.stress < playerShadow.maxStressValue;
+    }
+
     void RecalculatePath()
     {
         WorldToGrid(rb.position, out int startX, out int startY);
-        WorldToGrid(player.position, out int endX, out int endY);
 
-        // If enemy is inside a blocked cell, find nearest walkable cell
         if (!grid[startX, startY])
             FindNearestWalkable(startX, startY, out startX, out startY);
 
-        // If player is inside a blocked cell (also near walls/corners), path to nearest walkable cell
+        int endX, endY;
+
+        if (!isAlerted && IsPlayerHidden())
+        {
+            // Wander: pick a new random walkable target if we don't have one or reached it
+            if (!hasWanderTarget || Vector2.Distance(rb.position, wanderTarget) < waypointReachDist)
+                PickWanderTarget();
+
+            WorldToGrid(wanderTarget, out endX, out endY);
+        }
+        else
+        {
+            hasWanderTarget = false;
+            WorldToGrid(player.position, out endX, out endY);
+        }
+
         if (!grid[endX, endY])
             FindNearestWalkable(endX, endY, out endX, out endY);
 
         path = FindPath(startX, startY, endX, endY);
         pathIndex = 0;
+    }
+
+    void PickWanderTarget()
+    {
+        // Bias away from the player's last known position
+        Vector2 awayDir = (rb.position - (Vector2)player.position).normalized;
+
+        for (int attempt = 0; attempt < 20; attempt++)
+        {
+            // Offset mostly away from the player with some randomness
+            Vector2 offset = (awayDir + Random.insideUnitCircle * 0.5f).normalized * Random.Range(wanderRadius * 0.5f, wanderRadius);
+            Vector2 candidate = rb.position + offset;
+
+            WorldToGrid(candidate, out int cx, out int cy);
+            if (cx >= 0 && cx < gridWidth && cy >= 0 && cy < gridHeight && grid[cx, cy])
+            {
+                wanderTarget = GridToWorld(cx, cy);
+                hasWanderTarget = true;
+                return;
+            }
+        }
     }
 
     void FindNearestWalkable(int cx, int cy, out int rx, out int ry)
@@ -202,21 +259,36 @@ public class EnemyScript : MonoBehaviour
         if (pathIndex < path.Count && Vector2.Distance(rb.position, path[pathIndex]) < waypointReachDist)
             pathIndex++;
 
+        bool wandering = !isAlerted && IsPlayerHidden();
+        float speed = wandering ? baseMoveSpeed : moveSpeed;
+
         Vector2 targetDir;
         if (pathIndex < path.Count)
         {
-            // Snap direction immediately when following A* waypoints
             targetDir = (path[pathIndex] - rb.position).normalized;
-            currentDir = targetDir;
+            // Smooth turning while wandering, snap while chasing
+            if (wandering)
+                currentDir = Vector2.Lerp(currentDir, targetDir, turnSpeed * Time.fixedDeltaTime).normalized;
+            else
+                currentDir = targetDir;
         }
-        else
+        else if (!wandering)
         {
-            // Smooth turn only for the final segment
+            // Smooth turn toward player only when chasing
             targetDir = ((Vector2)player.position - rb.position).normalized;
             currentDir = Vector2.Lerp(currentDir, targetDir, turnSpeed * Time.fixedDeltaTime).normalized;
         }
+        else
+        {
+            // Reached wander target, immediately pick a new one
+            hasWanderTarget = false;
+            RecalculatePath();
+            pathTimer = pathRecalcInterval;
+            if (path.Count == 0) return;
+            currentDir = (path[0] - rb.position).normalized;
+        }
 
-        rb.linearVelocity = currentDir * moveSpeed;
+        rb.linearVelocity = currentDir * speed;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
