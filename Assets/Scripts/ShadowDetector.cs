@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class ShadowDetector : MonoBehaviour
 {
@@ -26,11 +25,6 @@ public class ShadowDetector : MonoBehaviour
             stress = Mathf.Min(stress + stressGainRate * Time.deltaTime, maxStress);
         else
             stress = Mathf.Max(stress - stressDecayRate * Time.deltaTime, 0f);
-    }
-
-    public void SetShadowSwimming(bool swimming)
-    {
-        isShadowSwimming = swimming;
     }
 
     void OnTriggerEnter2D(Collider2D other)

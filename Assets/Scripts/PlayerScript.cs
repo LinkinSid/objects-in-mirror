@@ -18,10 +18,10 @@ public class PlayerScript : MonoBehaviour
     private SpriteRenderer sr;
     private ShadowDetector shadowDetector;
     private Sprite normalSprite;
-    private InputAction crouchAction;
+    private InputAction interactAction;
     private bool wasSwimming;
-
-    private bool isSwimming;
+    private bool swimToggled;
+    private bool onCooldown;
 
     void Start()
     {
@@ -30,10 +30,9 @@ public class PlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         shadowDetector = GetComponent<ShadowDetector>();
         normalSprite = sr.sprite;
-
         if (swimPromptText != null)
             swimPromptText.gameObject.SetActive(false);
-        crouchAction = GetComponent<PlayerInput>().actions["Crouch"];
+        interactAction = GetComponent<PlayerInput>().actions["Interact"];
     }
 
     public void OnMove(InputValue value)
@@ -43,9 +42,27 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        HandleShadowSwimInput();
         if (shadowDetector != null)
-            shadowDetector.swimHeld = crouchAction != null && crouchAction.IsPressed();
+        {
+            bool justPressed = interactAction != null && interactAction.WasPressedThisFrame();
+
+            if (justPressed && !onCooldown)
+                swimToggled = !swimToggled;
+
+            if (shadowDetector.stress >= shadowDetector.maxStressValue)
+            {
+                swimToggled = false;
+                onCooldown = true;
+            }
+
+            if (onCooldown && shadowDetector.stress <= shadowDetector.maxStressValue * 0.8f)
+                onCooldown = false;
+
+            if (!shadowDetector.isInShadow)
+                swimToggled = false;
+
+            shadowDetector.swimHeld = swimToggled;
+        }
 
         bool swimming = shadowDetector != null
             && shadowDetector.isShadowSwimming
@@ -61,33 +78,14 @@ public class PlayerScript : MonoBehaviour
         UpdateSwimPrompt();
     }
 
-    void HandleShadowSwimInput()
-    {
-        if (shadowDetector == null) return;
-
-        bool pressedE = Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame;
-        bool releasedE = Keyboard.current != null && Keyboard.current.eKey.wasReleasedThisFrame;
-
-        if (pressedE &&
-            shadowDetector.isInShadow &&
-            shadowDetector.stress < shadowDetector.maxStressValue)
-        {
-            isSwimming = true;
-        }
-
-        if (!shadowDetector.isInShadow || releasedE)
-        {
-            isSwimming = false;
-        }
-
-        shadowDetector.SetShadowSwimming(isSwimming);
-    }
-
     void UpdateSprite()
     {
         if (sr == null || shadowDetector == null) return;
 
-        if (isSwimming && swimSprite != null)
+        bool canSwim = shadowDetector.isShadowSwimming
+            && shadowDetector.stress < shadowDetector.maxStressValue;
+
+        if (canSwim && swimSprite != null)
             sr.sprite = swimSprite;
         else
             sr.sprite = normalSprite;
@@ -99,8 +97,8 @@ public class PlayerScript : MonoBehaviour
 
         bool canShow =
             shadowDetector.isInShadow &&
-            !isSwimming &&
-            shadowDetector.stress < shadowDetector.maxStressValue;
+            !shadowDetector.isShadowSwimming &&
+            !onCooldown;
 
         swimPromptText.gameObject.SetActive(canShow);
     }
@@ -120,7 +118,7 @@ public class PlayerScript : MonoBehaviour
     {
         float speed = moveSpeed;
 
-        if (shadowDetector != null && isSwimming)
+        if (shadowDetector != null && shadowDetector.isShadowSwimming)
             speed *= shadowDetector.swimSpeedValue;
 
         rb.linearVelocity = moveInput * speed;
