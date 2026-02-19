@@ -13,22 +13,27 @@ public class PlayerScript : MonoBehaviour
     public TextMeshProUGUI swimPromptText;
 
     private Rigidbody2D rb;
+    private Collider2D myCollider;
     private Vector2 moveInput;
     private SpriteRenderer sr;
     private ShadowDetector shadowDetector;
     private Sprite normalSprite;
+    private InputAction crouchAction;
+    private bool wasSwimming;
 
     private bool isSwimming;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        myCollider = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
         shadowDetector = GetComponent<ShadowDetector>();
         normalSprite = sr.sprite;
 
         if (swimPromptText != null)
             swimPromptText.gameObject.SetActive(false);
+        crouchAction = GetComponent<PlayerInput>().actions["Crouch"];
     }
 
     public void OnMove(InputValue value)
@@ -39,6 +44,19 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         HandleShadowSwimInput();
+        if (shadowDetector != null)
+            shadowDetector.swimHeld = crouchAction != null && crouchAction.IsPressed();
+
+        bool swimming = shadowDetector != null
+            && shadowDetector.isShadowSwimming
+            && shadowDetector.stress < shadowDetector.maxStressValue;
+
+        if (swimming != wasSwimming)
+        {
+            wasSwimming = swimming;
+            SetEnemyCollisionIgnored(swimming);
+        }
+
         UpdateSprite();
         UpdateSwimPrompt();
     }
@@ -85,6 +103,15 @@ public class PlayerScript : MonoBehaviour
             shadowDetector.stress < shadowDetector.maxStressValue;
 
         swimPromptText.gameObject.SetActive(canShow);
+    void SetEnemyCollisionIgnored(bool ignore)
+    {
+        if (myCollider == null) return;
+        foreach (var enemy in FindObjectsByType<EnemyScript>(FindObjectsSortMode.None))
+        {
+            Collider2D enemyCol = enemy.GetComponent<Collider2D>();
+            if (enemyCol != null)
+                Physics2D.IgnoreCollision(myCollider, enemyCol, ignore);
+        }
     }
 
     void FixedUpdate()
@@ -96,4 +123,5 @@ public class PlayerScript : MonoBehaviour
 
         rb.linearVelocity = moveInput * speed;
     }
+}
 }

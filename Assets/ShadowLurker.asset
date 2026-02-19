@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b97b7d873babb4c9698e480a3b925848, type: 3}
+  m_Name: ShadowLurker
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyConfig
+  enemyName: Shadow Lurker
+  sprite: {fileID: 227862996, guid: d7536f919404442d0b364bbaf0fe941b, type: 3}
+  deathSprite: {fileID: 582917731, guid: d7536f919404442d0b364bbaf0fe941b, type: 3}
+  moveSpeed: 2.5
+  turnSpeed: 4
+  isStationary: 0
+  sentrySweepAngle: 90
+  sentrySweepSpeed: 30
+  detectionMode: 0
+  visionRange: 8
+  visionHalfAngle: 45
+  canSeeShadowSwimmer: 1
+  visionConeColor: {r: 0, g: 0, b: 0, a: 0}
+  alertDuration: 5
+  alertSpeedMultiplier: 1.3
+  alertsNearbyEnemies: 0
+  alertBroadcastRadius: 0
+  cellSize: 0.5
+  pathRecalcInterval: 0.5
+  gridBufferMultiplier: 1.8
+  waypointReachDist: 0.3
+  wanderMode: 0
+  wanderRadius: 5
+  maxHealth: 100
+  contactDamage: 20
+  invincibilityDuration: 1.5
+  healthBarColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
+  healthBarBgColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  healthBarYOffset: 0.8

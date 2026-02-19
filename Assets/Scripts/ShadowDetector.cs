@@ -1,45 +1,25 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using System.Collections.Generic;
 
 public class ShadowDetector : MonoBehaviour
 {
-    public LayerMask obstacleMask;
     public float maxStress = 100f;
     public float stressGainRate = 15f;
     public float stressDecayRate = 10f;
-    public float swimSpeedMultiplier = 0.6f;
-
-    [Tooltip("Minimum effective light intensity to count as lit")]
-    public float minLightContribution = 1f;
+    public float swimSpeedMultiplier = 1.5f;
 
     public bool isInShadow { get; private set; }
-    public bool isShadowSwimming { get; private set; }   // now controlled by PlayerScript
+    public bool isShadowSwimming { get; private set; }
+    public bool swimHeld;
     public float stress { get; private set; }
     public float maxStressValue => maxStress;
     public float swimSpeedValue => swimSpeedMultiplier;
 
-    Light2D[] lights;
-    ShadowCaster2D[] shadowCasters;
-
-    void Start()
-    {
-        lights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
-
-        var all = FindObjectsByType<ShadowCaster2D>(FindObjectsSortMode.None);
-        var filtered = new List<ShadowCaster2D>();
-        foreach (var sc in all)
-        {
-            if (((1 << sc.gameObject.layer) & obstacleMask) != 0)
-                filtered.Add(sc);
-        }
-        shadowCasters = filtered.ToArray();
-    }
+    int shadowZoneCount;
 
     void Update()
     {
-        bool wasInShadow = isInShadow;
-        Vector2 playerPos = transform.position;
+        isInShadow = shadowZoneCount > 0;
+        isShadowSwimming = isInShadow && swimHeld;
 
         isInShadow = !IsPointLit(playerPos);
 
@@ -102,7 +82,13 @@ public class ShadowDetector : MonoBehaviour
         return false;
     }
 
-    bool IsInShadowVolume(Vector2 point, Vector2 lightPos, ShadowCaster2D caster)
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<ShadowZone>() != null)
+            shadowZoneCount++;
+    }
+
+    void OnTriggerExit2D(Collider2D other)
     {
         Vector3[] shapePath = caster.shapePath;
         if (shapePath == null || shapePath.Length < 2)
@@ -133,5 +119,10 @@ public class ShadowDetector : MonoBehaviour
 
         float pointDist = (point - lightPos).magnitude;
         return pointDist > nearestDist;
+        if (other.GetComponent<ShadowZone>() != null)
+            shadowZoneCount--;
     }
+
+    // Kept as no-op so existing callers (BossController, etc.) don't break
+    public void RefreshCaches() { }
 }

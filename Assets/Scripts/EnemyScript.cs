@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 public class EnemyScript : MonoBehaviour
 {
-    public float moveSpeed = 2f;
-    public float turnSpeed = 5f;
+    public EnemyConfig config;
     public Transform player;
     public BoxCollider2D backgroundCollider;
-    public float cellSize = 0.5f;
-    public float pathRecalcInterval = 0.5f;
-    public float gridBufferMultiplier = 1.8f;
+    public Transform[] patrolWaypoints;
 
-    [Header("Vision Cone")]
-    public float visionRange = 6f;
-    public float visionHalfAngle = 30f;
-    public float alertDuration = 2f;
-    public float alertSpeedMultiplier = 1.5f;
-
-    [Header("Wander")]
-    public float wanderRadius = 4f;
+    private float moveSpeed;
+    private float turnSpeed;
+    private float visionRange;
+    private float visionHalfAngle;
+    private float alertDuration;
+    private float alertSpeedMultiplier;
+    private float wanderRadius;
+    private float cellSize;
+    private float pathRecalcInterval;
+    private float gridBufferMultiplier;
+    private float waypointReachDist;
 
     private Rigidbody2D rb;
     private Collider2D myCollider;
@@ -35,10 +35,28 @@ public class EnemyScript : MonoBehaviour
     // Wander state
     private Vector2 wanderTarget;
     private bool hasWanderTarget;
-    private bool wasPlayerHidden;
+    private int patrolIndex;
+
+    // Sentry sweep
+    private float sweepAngle;
+    private int sweepDirection = 1;
+    private Vector2 sweepCenterDir;
+    private float sentryCheckTimer;
+
+    // Cached health
+    private Health myHealth;
+
+    // Vision cone mesh
+    private MeshFilter coneMeshFilter;
+    private MeshRenderer coneMeshRenderer;
+    private Mesh coneMesh;
+    private Color coneColor;
+    private Color coneAlertColor;
+    private int coneSegments = 20;
 
     // Grid
     private bool[,] grid;
+    private bool[,] trapGrid;
     private int gridWidth, gridHeight;
     private Vector2 gridOrigin;
 
@@ -46,15 +64,55 @@ public class EnemyScript : MonoBehaviour
     private List<Vector2> path = new List<Vector2>();
     private int pathIndex;
     private float pathTimer;
-    private float waypointReachDist = 0.3f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        myHealth = GetComponent<Health>();
         myCollider = GetComponent<Collider2D>();
         playerCollider = player.GetComponent<Collider2D>();
         playerShadow = player.GetComponent<ShadowDetector>();
+
+        // Apply config
+        if (config != null)
+        {
+            moveSpeed = config.moveSpeed;
+            turnSpeed = config.turnSpeed;
+            visionRange = config.visionRange;
+            visionHalfAngle = config.visionHalfAngle;
+            alertDuration = config.alertDuration;
+            alertSpeedMultiplier = config.alertSpeedMultiplier;
+            wanderRadius = config.wanderRadius;
+            cellSize = config.cellSize > 0 ? config.cellSize : 0.5f;
+            pathRecalcInterval = config.pathRecalcInterval;
+            gridBufferMultiplier = config.gridBufferMultiplier;
+            waypointReachDist = config.waypointReachDist;
+
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (config.sprite != null && sr != null)
+                sr.sprite = config.sprite;
+
+            if (config.visionConeColor.a > 0f && config.detectionMode == DetectionMode.VisionCone)
+                BuildConeMesh();
+        }
+        else
+        {
+            // Defaults
+            moveSpeed = 2f;
+            turnSpeed = 3f;
+            visionRange = 4f;
+            visionHalfAngle = 45f;
+            alertDuration = 0.75f;
+            alertSpeedMultiplier = 1.5f;
+            wanderRadius = 4f;
+            cellSize = 0.5f;
+            pathRecalcInterval = 0.5f;
+            gridBufferMultiplier = 1.8f;
+            waypointReachDist = 0.3f;
+        }
+
         currentDir = ((Vector2)player.position - rb.position).normalized;
+        sweepCenterDir = currentDir;
         baseMoveSpeed = moveSpeed;
         basePathRecalcInterval = pathRecalcInterval;
 
@@ -70,6 +128,7 @@ public class EnemyScript : MonoBehaviour
         gridWidth = Mathf.CeilToInt(size.x / cellSize);
         gridHeight = Mathf.CeilToInt(size.y / cellSize);
         grid = new bool[gridWidth, gridHeight];
+        trapGrid = new bool[gridWidth, gridHeight];
 
         float checkRadius = myCollider.bounds.extents.x * gridBufferMultiplier;
 
@@ -80,6 +139,7 @@ public class EnemyScript : MonoBehaviour
                 Vector2 worldPos = GridToWorld(x, y);
                 Collider2D[] hits = Physics2D.OverlapCircleAll(worldPos, checkRadius);
                 bool walkable = true;
+                bool hasTrap = false;
                 foreach (Collider2D hit in hits)
                 {
                     if (hit != myCollider && hit != playerCollider && !hit.isTrigger)
@@ -87,10 +147,20 @@ public class EnemyScript : MonoBehaviour
                         walkable = false;
                         break;
                     }
+                    if (hit.isTrigger && hit.GetComponent<Trap>() != null)
+                        hasTrap = true;
                 }
                 grid[x, y] = walkable;
+                trapGrid[x, y] = hasTrap;
             }
         }
+    }
+
+    bool IsWalkable(int x, int y)
+    {
+        if (!grid[x, y]) return false;
+        if (!isAlerted && trapGrid[x, y]) return false;
+        return true;
     }
 
     Vector2 GridToWorld(int x, int y)
@@ -108,7 +178,59 @@ public class EnemyScript : MonoBehaviour
     {
         if (grid == null) return;
 
-        // Vision cone check
+        // Sentry: periodically check if all other enemies are dead
+        if (config != null && config.isStationary)
+        {
+            sentryCheckTimer -= Time.deltaTime;
+            if (sentryCheckTimer <= 0f)
+            {
+                sentryCheckTimer = 1f;
+                bool anyAlive = false;
+                foreach (EnemyScript other in FindObjectsByType<EnemyScript>(FindObjectsSortMode.None))
+                {
+                    if (other == this || !other.enabled) continue;
+                    if (other.config != null && other.config.isStationary) continue;
+                    anyAlive = true;
+                    break;
+                }
+                if (!anyAlive)
+                {
+                    SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                    if (config.deathSprite != null && sr != null)
+                        sr.sprite = config.deathSprite;
+
+                    enabled = false;
+                    return;
+                }
+            }
+        }
+
+        // Sentry: ping-pong sweep the vision cone
+        if (config != null && config.isStationary && !isAlerted)
+        {
+            sweepAngle += sweepDirection * config.sentrySweepSpeed * Time.deltaTime;
+            float halfSweep = config.sentrySweepAngle / 2f;
+
+            if (sweepAngle >= halfSweep)
+            {
+                sweepAngle = halfSweep;
+                sweepDirection = -1;
+            }
+            else if (sweepAngle <= -halfSweep)
+            {
+                sweepAngle = -halfSweep;
+                sweepDirection = 1;
+            }
+
+            float rad = sweepAngle * Mathf.Deg2Rad;
+            float cos = Mathf.Cos(rad);
+            float sin = Mathf.Sin(rad);
+            currentDir = new Vector2(
+                sweepCenterDir.x * cos - sweepCenterDir.y * sin,
+                sweepCenterDir.x * sin + sweepCenterDir.y * cos
+            ).normalized;
+        }
+
         if (CanSeePlayer())
         {
             if (!isAlerted)
@@ -134,19 +256,33 @@ public class EnemyScript : MonoBehaviour
             }
         }
 
+        // Sentry: alert nearby enemies
+        if (isAlerted && config != null && config.alertsNearbyEnemies)
+            AlertNearbyEnemies();
+
         pathTimer -= Time.deltaTime;
         if (pathTimer <= 0f)
         {
             RecalculatePath();
             pathTimer = pathRecalcInterval;
         }
+
+        UpdateConeMesh();
     }
 
     bool CanSeePlayer()
     {
-        // Player is invisible while shadow swimming, unless stress is full
-        if (IsPlayerHidden())
-            return false;
+        // Shadow visibility check
+        if (config != null && config.canSeeShadowSwimmer)
+        {
+            // Can see shadow swimmers, but not players in light
+            // Actually, this enemy sees everyone shadow swimming doesn't help
+        }
+        else
+        {
+            if (IsPlayerHidden())
+                return false;
+        }
 
         Vector2 toPlayer = (Vector2)player.position - rb.position;
         float distance = toPlayer.magnitude;
@@ -154,11 +290,15 @@ public class EnemyScript : MonoBehaviour
         if (distance > visionRange)
             return false;
 
-        float angle = Vector2.Angle(currentDir, toPlayer);
-        if (angle > visionHalfAngle)
-            return false;
+        // Proximity mode: skip angle check (360 awareness)
+        if (config == null || config.detectionMode == DetectionMode.VisionCone)
+        {
+            float angle = Vector2.Angle(currentDir, toPlayer);
+            if (angle > visionHalfAngle)
+                return false;
+        }
 
-        // Raycast to check for obstacles blocking line of sight
+        // Raycast LOS check (shared by all modes)
         Vector2 dir = toPlayer.normalized;
         float skinOffset = 0.1f;
         RaycastHit2D hit = Physics2D.Raycast(rb.position + dir * skinOffset, dir, distance - skinOffset);
@@ -177,18 +317,57 @@ public class EnemyScript : MonoBehaviour
         return playerShadow.stress < playerShadow.maxStressValue;
     }
 
+    void AlertNearbyEnemies()
+    {
+        float radius = config.alertBroadcastRadius;
+        Collider2D[] nearby = Physics2D.OverlapCircleAll(rb.position, radius);
+        foreach (Collider2D col in nearby)
+        {
+            if (col.gameObject == gameObject) continue;
+            EnemyScript other = col.GetComponent<EnemyScript>();
+            if (other != null && !other.isAlerted)
+                other.ReceiveAlert();
+        }
+    }
+
+    public void ReceiveAlert()
+    {
+        isAlerted = true;
+        alertTimer = alertDuration;
+        moveSpeed = baseMoveSpeed * alertSpeedMultiplier;
+        pathRecalcInterval = basePathRecalcInterval / 2f;
+        RecalculatePath();
+        pathTimer = pathRecalcInterval;
+    }
+
     void RecalculatePath()
     {
+        if (config != null && config.isStationary) return;
+
         WorldToGrid(rb.position, out int startX, out int startY);
 
-        if (!grid[startX, startY])
+        if (!IsWalkable(startX, startY))
             FindNearestWalkable(startX, startY, out startX, out startY);
 
         int endX, endY;
 
-        if (!isAlerted && IsPlayerHidden())
+        if (isAlerted)
         {
-            // Wander: pick a new random walkable target if we don't have one or reached it
+            hasWanderTarget = false;
+            WorldToGrid(player.position, out endX, out endY);
+        }
+        else if (config != null && config.wanderMode == WanderMode.Patrol
+            && patrolWaypoints != null && patrolWaypoints.Length > 0)
+        {
+            // Patrol waypoints: always follow when not alerted
+            if (Vector2.Distance(rb.position, patrolWaypoints[patrolIndex].position) < waypointReachDist)
+                patrolIndex = (patrolIndex + 1) % patrolWaypoints.Length;
+
+            WorldToGrid(patrolWaypoints[patrolIndex].position, out endX, out endY);
+        }
+        else if (IsPlayerHidden())
+        {
+            // Random wander: only when player is hidden
             if (!hasWanderTarget || Vector2.Distance(rb.position, wanderTarget) < waypointReachDist)
                 PickWanderTarget();
 
@@ -200,7 +379,7 @@ public class EnemyScript : MonoBehaviour
             WorldToGrid(player.position, out endX, out endY);
         }
 
-        if (!grid[endX, endY])
+        if (!IsWalkable(endX, endY))
             FindNearestWalkable(endX, endY, out endX, out endY);
 
         path = FindPath(startX, startY, endX, endY);
@@ -219,7 +398,7 @@ public class EnemyScript : MonoBehaviour
             Vector2 candidate = rb.position + offset;
 
             WorldToGrid(candidate, out int cx, out int cy);
-            if (cx >= 0 && cx < gridWidth && cy >= 0 && cy < gridHeight && grid[cx, cy])
+            if (cx >= 0 && cx < gridWidth && cy >= 0 && cy < gridHeight && IsWalkable(cx, cy))
             {
                 wanderTarget = GridToWorld(cx, cy);
                 hasWanderTarget = true;
@@ -238,7 +417,7 @@ public class EnemyScript : MonoBehaviour
                 {
                     if (Mathf.Abs(dx) != r && Mathf.Abs(dy) != r) continue;
                     int nx = cx + dx, ny = cy + dy;
-                    if (nx >= 0 && nx < gridWidth && ny >= 0 && ny < gridHeight && grid[nx, ny])
+                    if (nx >= 0 && nx < gridWidth && ny >= 0 && ny < gridHeight && IsWalkable(nx, ny))
                     {
                         rx = nx;
                         ry = ny;
@@ -253,13 +432,21 @@ public class EnemyScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (config != null && config.isStationary)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (grid == null || path.Count == 0)
             return;
 
         if (pathIndex < path.Count && Vector2.Distance(rb.position, path[pathIndex]) < waypointReachDist)
             pathIndex++;
 
-        bool wandering = !isAlerted && IsPlayerHidden();
+        bool wandering = !isAlerted && (IsPlayerHidden()
+            || (config != null && config.wanderMode == WanderMode.Patrol
+                && patrolWaypoints != null && patrolWaypoints.Length > 0));
         float speed = wandering ? baseMoveSpeed : moveSpeed;
 
         Vector2 targetDir;
@@ -369,13 +556,13 @@ public class EnemyScript : MonoBehaviour
 
                 if (nx < 0 || nx >= gridWidth || ny < 0 || ny >= gridHeight)
                     continue;
-                if (!grid[nx, ny] || closed[nx, ny])
+                if (!IsWalkable(nx, ny) || closed[nx, ny])
                     continue;
 
                 // For diagonal movement, check that both cardinal neighbors are walkable
                 if (cost[i] == 14)
                 {
-                    if (!grid[current.x + dx[i], current.y] || !grid[current.x, current.y + dy[i]])
+                    if (!IsWalkable(current.x + dx[i], current.y) || !IsWalkable(current.x, current.y + dy[i]))
                         continue;
                 }
 
@@ -419,6 +606,78 @@ public class EnemyScript : MonoBehaviour
 
         result.Reverse();
         return result;
+    }
+
+    void BuildConeMesh()
+    {
+        coneColor = config.visionConeColor;
+        coneAlertColor = new Color(1f, 0f, 0f, coneColor.a);
+
+        var coneGo = new GameObject("VisionCone");
+        coneGo.transform.SetParent(transform);
+        coneGo.transform.localPosition = Vector3.zero;
+        coneGo.transform.localRotation = Quaternion.identity;
+
+        coneMeshFilter = coneGo.AddComponent<MeshFilter>();
+        coneMeshRenderer = coneGo.AddComponent<MeshRenderer>();
+
+        coneMesh = new Mesh();
+        coneMeshFilter.mesh = coneMesh;
+
+        // Unlit transparent material
+        coneMeshRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        coneMeshRenderer.sortingOrder = 2;
+    }
+
+    void UpdateConeMesh()
+    {
+        if (coneMesh == null) return;
+
+        if (myHealth != null && myHealth.isDead)
+        {
+            Destroy(coneMeshFilter.gameObject);
+            coneMesh = null;
+            return;
+        }
+
+        Vector2 origin = rb.position;
+        Vector2 forward = currentDir.sqrMagnitude > 0f ? currentDir.normalized : Vector2.up;
+
+        float halfRad = visionHalfAngle * Mathf.Deg2Rad;
+        float startAngle = Mathf.Atan2(forward.y, forward.x) - halfRad;
+        float endAngle = Mathf.Atan2(forward.y, forward.x) + halfRad;
+
+        // Vertices: origin + arc points
+        var verts = new Vector3[coneSegments + 2];
+        verts[0] = Vector3.zero; // local origin
+
+        for (int i = 0; i <= coneSegments; i++)
+        {
+            float t = (float)i / coneSegments;
+            float a = Mathf.Lerp(startAngle, endAngle, t);
+            Vector2 worldPoint = origin + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * visionRange;
+            verts[i + 1] = transform.InverseTransformPoint(worldPoint);
+        }
+
+        // Triangles: fan from origin
+        var tris = new int[coneSegments * 3];
+        for (int i = 0; i < coneSegments; i++)
+        {
+            tris[i * 3] = 0;
+            tris[i * 3 + 1] = i + 1;
+            tris[i * 3 + 2] = i + 2;
+        }
+
+        // Color
+        Color col = isAlerted ? coneAlertColor : coneColor;
+        var colors = new Color[verts.Length];
+        for (int i = 0; i < colors.Length; i++)
+            colors[i] = col;
+
+        coneMesh.Clear();
+        coneMesh.vertices = verts;
+        coneMesh.triangles = tris;
+        coneMesh.colors = colors;
     }
 
     // Only for debug

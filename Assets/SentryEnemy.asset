@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b97b7d873babb4c9698e480a3b925848, type: 3}
+  m_Name: SentryEnemy
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyConfig
+  enemyName: Sentry
+  sprite: {fileID: -1445673970, guid: d7536f919404442d0b364bbaf0fe941b, type: 3}
+  deathSprite: {fileID: 582917731, guid: d7536f919404442d0b364bbaf0fe941b, type: 3}
+  moveSpeed: 2
+  turnSpeed: 5
+  isStationary: 1
+  sentrySweepAngle: 90
+  sentrySweepSpeed: 30
+  detectionMode: 0
+  visionRange: 6
+  visionHalfAngle: 30
+  canSeeShadowSwimmer: 0
+  visionConeColor: {r: 1, g: 0.9, b: 0, a: 0.14901961}
+  alertDuration: 2
+  alertSpeedMultiplier: 1.5
+  alertsNearbyEnemies: 1
+  alertBroadcastRadius: 10
+  cellSize: 0.5
+  pathRecalcInterval: 0.5
+  gridBufferMultiplier: 1.8
+  waypointReachDist: 0.3
+  wanderMode: 0
+  wanderRadius: 4
+  maxHealth: 100
+  contactDamage: 15
+  invincibilityDuration: 1.5
+  healthBarColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
+  healthBarBgColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  healthBarYOffset: 0.8
