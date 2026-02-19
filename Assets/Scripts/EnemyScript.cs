@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour
     private float pathRecalcInterval;
     private float gridBufferMultiplier;
     private float waypointReachDist;
+    private float passiveAwarenessRange;
 
     private Rigidbody2D rb;
     private Collider2D myCollider;
@@ -87,6 +88,7 @@ public class EnemyScript : MonoBehaviour
             pathRecalcInterval = config.pathRecalcInterval;
             gridBufferMultiplier = config.gridBufferMultiplier;
             waypointReachDist = config.waypointReachDist;
+            passiveAwarenessRange = config.passiveAwarenessRange;
 
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (config.sprite != null && sr != null)
@@ -109,6 +111,7 @@ public class EnemyScript : MonoBehaviour
             pathRecalcInterval = 0.5f;
             gridBufferMultiplier = 1.8f;
             waypointReachDist = 0.3f;
+            passiveAwarenessRange = 50f;
         }
 
         currentDir = ((Vector2)player.position - rb.position).normalized;
@@ -373,10 +376,17 @@ public class EnemyScript : MonoBehaviour
 
             WorldToGrid(wanderTarget, out endX, out endY);
         }
-        else
+        else if (Vector2.Distance(rb.position, player.position) <= passiveAwarenessRange)
         {
             hasWanderTarget = false;
             WorldToGrid(player.position, out endX, out endY);
+        }
+        else
+        {
+            if (!hasWanderTarget || Vector2.Distance(rb.position, wanderTarget) < waypointReachDist)
+                PickWanderTarget();
+
+            WorldToGrid(wanderTarget, out endX, out endY);
         }
 
         if (!IsWalkable(endX, endY))

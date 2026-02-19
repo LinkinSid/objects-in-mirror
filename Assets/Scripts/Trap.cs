@@ -6,6 +6,10 @@ public class Trap : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        ShadowDetector shadow = other.GetComponent<ShadowDetector>();
+        if (shadow != null && shadow.isShadowSwimming)
+            return;
+
         Health health = other.GetComponent<Health>();
         if (health != null)
             health.TakeDamage(damage);

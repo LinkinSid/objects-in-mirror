@@ -49,6 +49,7 @@ public class EnemyConfig : ScriptableObject
     [Header("Wander")]
     public WanderMode wanderMode = WanderMode.Random;
     public float wanderRadius = 4f;
+    public float passiveAwarenessRange = 50f;
 
     [Header("Health")]
     public float maxHealth = 100f;
