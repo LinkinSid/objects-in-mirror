@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
     private SpriteRenderer sr;
     private ShadowDetector shadowDetector;
     private Sprite normalSprite;
+    private InputAction crouchAction;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class PlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         shadowDetector = GetComponent<ShadowDetector>();
         normalSprite = sr.sprite;
+        crouchAction = GetComponent<PlayerInput>().actions["Crouch"];
     }
 
     public void OnMove(InputValue value)
@@ -29,6 +31,8 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        if (shadowDetector != null)
+            shadowDetector.swimHeld = crouchAction != null && crouchAction.IsPressed();
         UpdateSprite();
     }
 

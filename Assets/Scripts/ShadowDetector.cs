@@ -15,6 +15,7 @@ public class ShadowDetector : MonoBehaviour
 
     public bool isInShadow { get; private set; }
     public bool isShadowSwimming { get; private set; }
+    public bool swimHeld;
     public float stress { get; private set; }
     public float maxStressValue => maxStress;
     public float swimSpeedValue => swimSpeedMultiplier;
@@ -23,6 +24,11 @@ public class ShadowDetector : MonoBehaviour
     ShadowCaster2D[] shadowCasters;
 
     void Start()
+    {
+        RefreshCaches();
+    }
+
+    public void RefreshCaches()
     {
         lights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
 
@@ -38,24 +44,15 @@ public class ShadowDetector : MonoBehaviour
 
     void Update()
     {
-        bool wasInShadow = isInShadow;
         Vector2 playerPos = transform.position;
 
         isInShadow = !IsPointLit(playerPos);
-        isShadowSwimming = isInShadow;
+        isShadowSwimming = isInShadow && swimHeld;
 
-        if (isInShadow)
+        if (isShadowSwimming)
             stress = Mathf.Min(stress + stressGainRate * Time.deltaTime, maxStress);
         else
             stress = Mathf.Max(stress - stressDecayRate * Time.deltaTime, 0f);
-
-        if (isInShadow != wasInShadow)
-        {
-            if (isInShadow)
-                Debug.Log("Player is IN SHADOW (swimming)");
-            else
-                Debug.Log("Player is IN LIGHT");
-        }
     }
 
     bool IsPointLit(Vector2 point)
@@ -84,6 +81,7 @@ public class ShadowDetector : MonoBehaviour
             bool blocked = false;
             foreach (var caster in shadowCasters)
             {
+                if (!caster.enabled) continue;
                 if (IsInShadowVolume(point, lightPos, caster))
                 {
                     blocked = true;
