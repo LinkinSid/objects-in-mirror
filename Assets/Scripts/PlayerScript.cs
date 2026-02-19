@@ -103,6 +103,8 @@ public class PlayerScript : MonoBehaviour
             shadowDetector.stress < shadowDetector.maxStressValue;
 
         swimPromptText.gameObject.SetActive(canShow);
+    }
+
     void SetEnemyCollisionIgnored(bool ignore)
     {
         if (myCollider == null) return;
@@ -123,5 +125,4 @@ public class PlayerScript : MonoBehaviour
 
         rb.linearVelocity = moveInput * speed;
     }
-}
 }
