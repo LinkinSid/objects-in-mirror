@@ -41,10 +41,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeFade: 0.2
+    - _EdgeFade: 0.04
     - _EnableExternalAlpha: 0
     - _NoiseScale: 2
-    - _NoiseSpeed: 0.3
+    - _NoiseSpeed: 0.6
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.130059, g: 0.028994396, b: 0.028994396, a: 1}

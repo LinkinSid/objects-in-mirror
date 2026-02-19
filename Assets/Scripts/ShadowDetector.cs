@@ -5,7 +5,7 @@ public class ShadowDetector : MonoBehaviour
     public float maxStress = 100f;
     public float stressGainRate = 15f;
     public float stressDecayRate = 10f;
-    public float swimSpeedMultiplier = 0.6f;
+    public float swimSpeedMultiplier = 1.5f;
 
     public bool isInShadow { get; private set; }
     public bool isShadowSwimming { get; private set; }

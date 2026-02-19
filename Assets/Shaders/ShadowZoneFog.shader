@@ -101,8 +101,8 @@ Shader "Custom/ShadowZoneFog"
                 float t = _Time.y * _NoiseSpeed;
                 float2 wuv = input.worldXY * _NoiseScale;
 
-                float n = fbm(wuv + float2(t * 0.3, t * 0.2));
-                n += fbm(wuv * 1.4 - float2(t * 0.2, t * 0.15)) * 0.5;
+                float n = fbm(wuv + float2(t, t * 0.7));
+                n += fbm(wuv * 1.4 - float2(t * 0.8, t * 0.6)) * 0.5;
                 n = saturate(n * 0.7 + 0.3); // bias away from pure black
 
                 // Soft edge fade using sprite UVs

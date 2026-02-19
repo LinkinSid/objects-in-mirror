@@ -5,18 +5,15 @@ public class DangerZone : MonoBehaviour
     float radius;
     float damage;
     float delay;
-    float revealDuration;
     float timer;
     Health targetHealth;
-    BossController boss;
     SpriteRenderer sr;
 
     static Sprite circleSprite;
 
     public static void Spawn(
         Vector2 position, float radius, float damage,
-        float delay, float revealDuration,
-        Health targetHealth, BossController boss)
+        float delay, Health targetHealth)
     {
         var go = new GameObject("DangerZone");
         go.transform.position = position;
@@ -25,12 +22,9 @@ public class DangerZone : MonoBehaviour
         zone.radius = radius;
         zone.damage = damage;
         zone.delay = delay;
-        zone.revealDuration = revealDuration;
         zone.timer = delay;
         zone.targetHealth = targetHealth;
-        zone.boss = boss;
 
-        // Red warning circle
         zone.sr = go.AddComponent<SpriteRenderer>();
         zone.sr.sprite = GetCircleSprite();
         zone.sr.color = new Color(0f, 0.4f, 1f, 0.15f);
@@ -42,7 +36,6 @@ public class DangerZone : MonoBehaviour
     {
         timer -= Time.deltaTime;
 
-        // Pulse red — gets more opaque as detonation approaches
         float progress = 1f - (timer / delay);
         float alpha = Mathf.Lerp(0.15f, 0.5f, progress);
         sr.color = new Color(0f, 0.4f, 1f, alpha);
@@ -56,18 +49,11 @@ public class DangerZone : MonoBehaviour
 
     void Detonate()
     {
-        // Flash bright on detonation
         sr.color = new Color(0f, 0.6f, 1f, 0.8f);
 
         float dist = Vector2.Distance(transform.position, targetHealth.transform.position);
         if (dist <= radius)
-        {
             targetHealth.TakeDamage(damage);
-
-            // Hit → player is revealed to the boss
-            if (boss != null)
-                boss.RevealPlayer(revealDuration);
-        }
     }
 
     static Sprite GetCircleSprite()
