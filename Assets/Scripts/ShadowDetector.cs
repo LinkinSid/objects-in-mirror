@@ -14,7 +14,7 @@ public class ShadowDetector : MonoBehaviour
     public float minLightContribution = 1f;
 
     public bool isInShadow { get; private set; }
-    public bool isShadowSwimming { get; private set; }
+    public bool isShadowSwimming { get; private set; }   // now controlled by PlayerScript
     public float stress { get; private set; }
     public float maxStressValue => maxStress;
     public float swimSpeedValue => swimSpeedMultiplier;
@@ -42,9 +42,9 @@ public class ShadowDetector : MonoBehaviour
         Vector2 playerPos = transform.position;
 
         isInShadow = !IsPointLit(playerPos);
-        isShadowSwimming = isInShadow;
 
-        if (isInShadow)
+        // ✅ Stress only increases when actively swimming
+        if (isShadowSwimming)
             stress = Mathf.Min(stress + stressGainRate * Time.deltaTime, maxStress);
         else
             stress = Mathf.Max(stress - stressDecayRate * Time.deltaTime, 0f);
@@ -52,10 +52,16 @@ public class ShadowDetector : MonoBehaviour
         if (isInShadow != wasInShadow)
         {
             if (isInShadow)
-                Debug.Log("Player is IN SHADOW (swimming)");
+                Debug.Log("Player is IN SHADOW");
             else
                 Debug.Log("Player is IN LIGHT");
         }
+    }
+
+    // Called by PlayerScript
+    public void SetShadowSwimming(bool swimming)
+    {
+        isShadowSwimming = swimming;
     }
 
     bool IsPointLit(Vector2 point)
@@ -69,7 +75,6 @@ public class ShadowDetector : MonoBehaviour
             if (distance > light.pointLightOuterRadius)
                 continue;
 
-            // Skip lights that are too dim at this distance
             float t = Mathf.Clamp01((distance - light.pointLightInnerRadius)
                 / (light.pointLightOuterRadius - light.pointLightInnerRadius));
             float effectiveIntensity = light.intensity * (1f - t);
@@ -105,7 +110,6 @@ public class ShadowDetector : MonoBehaviour
 
         Transform t = caster.transform;
 
-        // Find silhouette edges: the widest angular spread from the light
         Vector2 center = t.position;
         Vector2 baseDir = (center - lightPos).normalized;
         float minAngle = float.MaxValue;
@@ -123,12 +127,10 @@ public class ShadowDetector : MonoBehaviour
             if (dist < nearestDist) nearestDist = dist;
         }
 
-        // Point must be within the shadow cone angle
         float pointAngle = Vector2.SignedAngle(baseDir, point - lightPos);
         if (pointAngle < minAngle || pointAngle > maxAngle)
             return false;
 
-        // Point must be further from the light than the nearest caster vertex
         float pointDist = (point - lightPos).magnitude;
         return pointDist > nearestDist;
     }
