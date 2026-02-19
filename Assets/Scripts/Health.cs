@@ -111,6 +111,13 @@ public class Health : MonoBehaviour
     {
         if (!isPlayer) return;
         if (collision.gameObject.GetComponent<EnemyScript>() == null) return;
+
+        // Immune while shadow swimming
+        var shadow = GetComponent<ShadowDetector>();
+        if (shadow != null && shadow.isShadowSwimming
+            && shadow.stress < shadow.maxStressValue)
+            return;
+
         TakeDamage(enemyContactDamage);
     }
 }

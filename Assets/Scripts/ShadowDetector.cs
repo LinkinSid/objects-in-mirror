@@ -1,17 +1,11 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using System.Collections.Generic;
 
 public class ShadowDetector : MonoBehaviour
 {
-    public LayerMask obstacleMask;
     public float maxStress = 100f;
     public float stressGainRate = 15f;
     public float stressDecayRate = 10f;
     public float swimSpeedMultiplier = 0.6f;
-
-    [Tooltip("Minimum effective light intensity to count as lit")]
-    public float minLightContribution = 1f;
 
     public bool isInShadow { get; private set; }
     public bool isShadowSwimming { get; private set; }
@@ -20,33 +14,11 @@ public class ShadowDetector : MonoBehaviour
     public float maxStressValue => maxStress;
     public float swimSpeedValue => swimSpeedMultiplier;
 
-    Light2D[] lights;
-    ShadowCaster2D[] shadowCasters;
-
-    void Start()
-    {
-        RefreshCaches();
-    }
-
-    public void RefreshCaches()
-    {
-        lights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
-
-        var all = FindObjectsByType<ShadowCaster2D>(FindObjectsSortMode.None);
-        var filtered = new List<ShadowCaster2D>();
-        foreach (var sc in all)
-        {
-            if (((1 << sc.gameObject.layer) & obstacleMask) != 0)
-                filtered.Add(sc);
-        }
-        shadowCasters = filtered.ToArray();
-    }
+    int shadowZoneCount;
 
     void Update()
     {
-        Vector2 playerPos = transform.position;
-
-        isInShadow = !IsPointLit(playerPos);
+        isInShadow = shadowZoneCount > 0;
         isShadowSwimming = isInShadow && swimHeld;
 
         if (isShadowSwimming)
@@ -55,79 +27,18 @@ public class ShadowDetector : MonoBehaviour
             stress = Mathf.Max(stress - stressDecayRate * Time.deltaTime, 0f);
     }
 
-    bool IsPointLit(Vector2 point)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        foreach (Light2D light in lights)
-        {
-            Vector2 lightPos = light.transform.position;
-            Vector2 toPoint = point - lightPos;
-            float distance = toPoint.magnitude;
-
-            if (distance > light.pointLightOuterRadius)
-                continue;
-
-            // Skip lights that are too dim at this distance
-            float t = Mathf.Clamp01((distance - light.pointLightInnerRadius)
-                / (light.pointLightOuterRadius - light.pointLightInnerRadius));
-            float effectiveIntensity = light.intensity * (1f - t);
-            if (effectiveIntensity < minLightContribution)
-                continue;
-
-            Vector2 lightDir = light.transform.right;
-            float angle = Vector2.Angle(lightDir, toPoint);
-            if (angle > light.pointLightOuterAngle / 2f)
-                continue;
-
-            bool blocked = false;
-            foreach (var caster in shadowCasters)
-            {
-                if (!caster.enabled) continue;
-                if (IsInShadowVolume(point, lightPos, caster))
-                {
-                    blocked = true;
-                    break;
-                }
-            }
-
-            if (!blocked)
-                return true;
-        }
-        return false;
+        if (other.GetComponent<ShadowZone>() != null)
+            shadowZoneCount++;
     }
 
-    bool IsInShadowVolume(Vector2 point, Vector2 lightPos, ShadowCaster2D caster)
+    void OnTriggerExit2D(Collider2D other)
     {
-        Vector3[] shapePath = caster.shapePath;
-        if (shapePath == null || shapePath.Length < 2)
-            return false;
-
-        Transform t = caster.transform;
-
-        // Find silhouette edges: the widest angular spread from the light
-        Vector2 center = t.position;
-        Vector2 baseDir = (center - lightPos).normalized;
-        float minAngle = float.MaxValue;
-        float maxAngle = float.MinValue;
-        float nearestDist = float.MaxValue;
-
-        foreach (Vector3 localVert in shapePath)
-        {
-            Vector2 worldVert = t.TransformPoint(localVert);
-            float a = Vector2.SignedAngle(baseDir, worldVert - lightPos);
-            if (a < minAngle) minAngle = a;
-            if (a > maxAngle) maxAngle = a;
-
-            float dist = (worldVert - lightPos).magnitude;
-            if (dist < nearestDist) nearestDist = dist;
-        }
-
-        // Point must be within the shadow cone angle
-        float pointAngle = Vector2.SignedAngle(baseDir, point - lightPos);
-        if (pointAngle < minAngle || pointAngle > maxAngle)
-            return false;
-
-        // Point must be further from the light than the nearest caster vertex
-        float pointDist = (point - lightPos).magnitude;
-        return pointDist > nearestDist;
+        if (other.GetComponent<ShadowZone>() != null)
+            shadowZoneCount--;
     }
+
+    // Kept as no-op so existing callers (BossController, etc.) don't break
+    public void RefreshCaches() { }
 }
