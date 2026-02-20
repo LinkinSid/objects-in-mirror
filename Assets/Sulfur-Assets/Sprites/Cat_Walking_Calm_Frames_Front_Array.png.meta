@@ -1,0 +1,535 @@
+fileFormatVersion: 2
+guid: 69c87f90a035fe549a4d2f50b030fc37
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2940667034017693332
+    second: Cat_Walking_Calm_Frames_Front_Array_0
+  - first:
+      213: 8125370288333816144
+    second: Cat_Walking_Calm_Frames_Front_Array_1
+  - first:
+      213: 1934974808285166973
+    second: Cat_Walking_Calm_Frames_Front_Array_2
+  - first:
+      213: -249740161447639680
+    second: Cat_Walking_Calm_Frames_Front_Array_3
+  - first:
+      213: 454126346579362467
+    second: Cat_Walking_Calm_Frames_Front_Array_4
+  - first:
+      213: 3385832178170664104
+    second: Cat_Walking_Calm_Frames_Front_Array_5
+  - first:
+      213: -9047664850349902391
+    second: Cat_Walking_Calm_Frames_Front_Array_6
+  - first:
+      213: -2626164056813804630
+    second: Cat_Walking_Calm_Frames_Front_Array_7
+  - first:
+      213: 2351920315856013501
+    second: Cat_Walking_Calm_Frames_Front_Array_8
+  - first:
+      213: 1617310255400775214
+    second: Cat_Walking_Calm_Frames_Front_Array_9
+  - first:
+      213: -2692563435559477913
+    second: Cat_Walking_Calm_Frames_Front_Array_10
+  - first:
+      213: 138906642188562099
+    second: Cat_Walking_Calm_Frames_Front_Array_11
+  - first:
+      213: -1163948511115952257
+    second: Cat_Walking_Calm_Frames_Front_Array_12
+  - first:
+      213: -2661091569579461503
+    second: Cat_Walking_Calm_Frames_Front_Array_13
+  - first:
+      213: 6243592859424640007
+    second: Cat_Walking_Calm_Frames_Front_Array_14
+  - first:
+      213: -7905746041388182297
+    second: Cat_Walking_Calm_Frames_Front_Array_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 540
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_0
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 583
+        width: 60
+        height: 110
+      alignment: 9
+      pivot: {x: 0.49999973, y: 0.5913668}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49e735d46195fc820800000000000000
+      internalID: 2940667034017693332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_1
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 585
+        width: 75
+        height: 109
+      alignment: 9
+      pivot: {x: 0.41608682, y: 0.58660775}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05186a82a3d13c070800000000000000
+      internalID: 8125370288333816144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_2
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 583
+        width: 75
+        height: 110
+      alignment: 9
+      pivot: {x: 0.41741088, y: 0.5855086}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7dba2116596ada10800000000000000
+      internalID: 1934974808285166973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_3
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 582
+        width: 62
+        height: 110
+      alignment: 9
+      pivot: {x: 0.503671, y: 0.599297}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 085c3c675aeb88cf0800000000000000
+      internalID: -249740161447639680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_4
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 400
+        width: 63
+        height: 110
+      alignment: 9
+      pivot: {x: 0.529774, y: 0.57697505}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a2420391816d4600800000000000000
+      internalID: 454126346579362467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_5
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 402
+        width: 69
+        height: 109
+      alignment: 9
+      pivot: {x: 0.58083, y: 0.5767514}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a413f85d64ecfe20800000000000000
+      internalID: 3385832178170664104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_6
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 400
+        width: 66
+        height: 110
+      alignment: 9
+      pivot: {x: 0.5551887, y: 0.58774996}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c53b1451cc307280800000000000000
+      internalID: -9047664850349902391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_7
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 398
+        width: 61
+        height: 111
+      alignment: 9
+      pivot: {x: 0.50977063, y: 0.5859309}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa3e6bf44bdfd8bd0800000000000000
+      internalID: -2626164056813804630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_8
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 216
+        width: 61
+        height: 110
+      alignment: 9
+      pivot: {x: 0.5000001, y: 0.5924968}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db84f96f013b3a020800000000000000
+      internalID: 2351920315856013501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_9
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 218
+        width: 62
+        height: 109
+      alignment: 9
+      pivot: {x: 0.48983765, y: 0.5693676}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2e62c0cb17d17610800000000000000
+      internalID: 1617310255400775214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_10
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 216
+        width: 62
+        height: 110
+      alignment: 9
+      pivot: {x: 0.4999995, y: 0.5742404}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76d954832d712aad0800000000000000
+      internalID: -2692563435559477913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_11
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 215
+        width: 60
+        height: 110
+      alignment: 9
+      pivot: {x: 0.5152975, y: 0.5750929}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3be6798eade7de100800000000000000
+      internalID: 138906642188562099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_12
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 32
+        width: 60
+        height: 110
+      alignment: 9
+      pivot: {x: 0.5046865, y: 0.5792425}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7fb61afef2d8dfe0800000000000000
+      internalID: -1163948511115952257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_13
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 34
+        width: 79
+        height: 109
+      alignment: 9
+      pivot: {x: 0.6326352, y: 0.5747678}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 184fd680157e11bd0800000000000000
+      internalID: -2661091569579461503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_14
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 32
+        width: 74
+        height: 110
+      alignment: 9
+      pivot: {x: 0.5958953, y: 0.57660735}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70ccb2c20a2b5a650800000000000000
+      internalID: 6243592859424640007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Walking_Calm_Frames_Front_Array_15
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 31
+        width: 70
+        height: 110
+      alignment: 9
+      pivot: {x: 0.5741891, y: 0.5833143}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e45b9e9cd5294290800000000000000
+      internalID: -7905746041388182297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 858ee39f420cac742a522e67efc1cfb2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Cat_Walking_Calm_Frames_Front_Array_0: 2940667034017693332
+      Cat_Walking_Calm_Frames_Front_Array_1: 8125370288333816144
+      Cat_Walking_Calm_Frames_Front_Array_10: -2692563435559477913
+      Cat_Walking_Calm_Frames_Front_Array_11: 138906642188562099
+      Cat_Walking_Calm_Frames_Front_Array_12: -1163948511115952257
+      Cat_Walking_Calm_Frames_Front_Array_13: -2661091569579461503
+      Cat_Walking_Calm_Frames_Front_Array_14: 6243592859424640007
+      Cat_Walking_Calm_Frames_Front_Array_15: -7905746041388182297
+      Cat_Walking_Calm_Frames_Front_Array_2: 1934974808285166973
+      Cat_Walking_Calm_Frames_Front_Array_3: -249740161447639680
+      Cat_Walking_Calm_Frames_Front_Array_4: 454126346579362467
+      Cat_Walking_Calm_Frames_Front_Array_5: 3385832178170664104
+      Cat_Walking_Calm_Frames_Front_Array_6: -9047664850349902391
+      Cat_Walking_Calm_Frames_Front_Array_7: -2626164056813804630
+      Cat_Walking_Calm_Frames_Front_Array_8: 2351920315856013501
+      Cat_Walking_Calm_Frames_Front_Array_9: 1617310255400775214
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

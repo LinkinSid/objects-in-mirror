@@ -24,6 +24,10 @@ public class PlayerScript : MonoBehaviour
     private bool onCooldown;
     private Health health;
 
+    // 🔽 NEW
+    private Animator animator;
+    private Vector2 lastMoveDir = Vector2.down; // default facing down
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -31,9 +35,13 @@ public class PlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         shadowDetector = GetComponent<ShadowDetector>();
         health = GetComponent<Health>();
+        animator = GetComponent<Animator>(); // NEW
+
         normalSprite = sr.sprite;
+
         if (swimPromptText != null)
             swimPromptText.gameObject.SetActive(false);
+
         interactAction = GetComponent<PlayerInput>().actions["Interact"];
     }
 
@@ -44,6 +52,31 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        // -------- ANIMATION LOGIC --------
+        bool isMoving = moveInput != Vector2.zero;
+
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", isMoving);
+
+            if (isMoving)
+            {
+                // prioritize vertical over horizontal (prevents diagonal confusion)
+                if (Mathf.Abs(moveInput.y) > Mathf.Abs(moveInput.x))
+                {
+                    lastMoveDir = new Vector2(0, moveInput.y);
+                }
+                else
+                {
+                    lastMoveDir = new Vector2(moveInput.x, 0);
+                }
+
+                animator.SetFloat("MoveX", lastMoveDir.x);
+                animator.SetFloat("MoveY", lastMoveDir.y);
+            }
+        }
+        // --------------------------------
+
         if (shadowDetector != null)
         {
             bool justPressed = interactAction != null && interactAction.WasPressedThisFrame();
