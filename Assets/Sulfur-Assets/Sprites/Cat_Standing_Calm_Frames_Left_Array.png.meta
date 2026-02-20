@@ -96,7 +96,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 540
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -141,6 +141,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -148,12 +161,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_0
       rect:
         serializedVersion: 2
-        x: 63
-        y: 516
-        width: 78
-        height: 98
+        x: 54
+        y: 507
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.22701576, y: 0.54828256}
+      pivot: {x: 0.2782003, y: 0.5407904}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -170,12 +183,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_1
       rect:
         serializedVersion: 2
-        x: 225
-        y: 517
-        width: 78
-        height: 99
+        x: 216
+        y: 508
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.2425989, y: 0.54933}
+      pivot: {x: 0.2908616, y: 0.5464109}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -192,12 +205,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_2
       rect:
         serializedVersion: 2
-        x: 387
-        y: 517
-        width: 78
-        height: 101
+        x: 378
+        y: 510
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.23345673, y: 0.55323595}
+      pivot: {x: 0.2834336, y: 0.5420416}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -214,12 +227,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_3
       rect:
         serializedVersion: 2
-        x: 550
-        y: 517
-        width: 77
-        height: 101
+        x: 540
+        y: 510
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.230162, y: 0.5514297}
+      pivot: {x: 0.2887758, y: 0.5404690}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -236,12 +249,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_4
       rect:
         serializedVersion: 2
-        x: 63
-        y: 355
-        width: 78
-        height: 100
+        x: 54
+        y: 347
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.22886227, y: 0.5553894}
+      pivot: {x: 0.2797006, y: 0.5477495}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -258,12 +271,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_5
       rect:
         serializedVersion: 2
-        x: 225
-        y: 355
-        width: 77
-        height: 100
+        x: 216
+        y: 347
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.2346239, y: 0.5520139}
+      pivot: {x: 0.2819379, y: 0.5448396}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -280,12 +293,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_6
       rect:
         serializedVersion: 2
-        x: 387
-        y: 354
-        width: 79
-        height: 99
+        x: 378
+        y: 346
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.23753685, y: 0.55144125}
+      pivot: {x: 0.2892230, y: 0.5395921}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -302,12 +315,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_7
       rect:
         serializedVersion: 2
-        x: 550
-        y: 354
-        width: 77
-        height: 98
+        x: 540
+        y: 345
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.23676012, y: 0.5464792}
+      pivot: {x: 0.2940680, y: 0.5392669}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -324,12 +337,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_8
       rect:
         serializedVersion: 2
-        x: 63
-        y: 192
-        width: 78
-        height: 98
+        x: 54
+        y: 183
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.23380935, y: 0.5554112}
+      pivot: {x: 0.2837201, y: 0.5468129}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -346,12 +359,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_9
       rect:
         serializedVersion: 2
-        x: 225
-        y: 192
-        width: 77
-        height: 100
+        x: 216
+        y: 184
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.2413556, y: 0.56035006}
+      pivot: {x: 0.2873373, y: 0.5520259}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -368,12 +381,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_10
       rect:
         serializedVersion: 2
-        x: 387
-        y: 193
-        width: 78
-        height: 100
+        x: 378
+        y: 185
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.23728748, y: 0.55038923}
+      pivot: {x: 0.2865461, y: 0.5434390}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -390,12 +403,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_11
       rect:
         serializedVersion: 2
-        x: 550
-        y: 193
-        width: 76
-        height: 100
+        x: 540
+        y: 185
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.23568887, y: 0.5652847}
+      pivot: {x: 0.2907537, y: 0.5562799}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -412,12 +425,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_12
       rect:
         serializedVersion: 2
-        x: 63
-        y: 30
-        width: 77
-        height: 101
+        x: 54
+        y: 22
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.24408247, y: 0.56937075}
+      pivot: {x: 0.2895245, y: 0.5647107}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -434,12 +447,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_13
       rect:
         serializedVersion: 2
-        x: 225
-        y: 30
-        width: 77
-        height: 100
+        x: 216
+        y: 22
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.235564, y: 0.5670735}
+      pivot: {x: 0.2826920, y: 0.5578220}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -456,12 +469,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_14
       rect:
         serializedVersion: 2
-        x: 387
-        y: 30
-        width: 80
-        height: 98
+        x: 379
+        y: 21
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.23690835, y: 0.55692655}
+      pivot: {x: 0.2807570, y: 0.5480931}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -478,12 +491,12 @@ TextureImporter:
       name: Cat_Standing_Calm_Frames_Left_Array_15
       rect:
         serializedVersion: 2
-        x: 550
-        y: 30
-        width: 75
-        height: 97
+        x: 540
+        y: 20
+        width: 96
+        height: 116
       alignment: 9
-      pivot: {x: 0.24361409, y: 0.5571834}
+      pivot: {x: 0.2944902, y: 0.5521275}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

@@ -24,7 +24,10 @@ public class PlayerScript : MonoBehaviour
     private bool onCooldown;
     private Health health;
 
-    // 🔽 NEW
+    [Header("Animation")]
+    [Tooltip("Scale applied during walk to match idle sprite size")]
+    [SerializeField] private float walkScale = 0.88f;
+
     private Animator animator;
     private Vector2 lastMoveDir = Vector2.down; // default facing down
 
@@ -74,6 +77,10 @@ public class PlayerScript : MonoBehaviour
                 animator.SetFloat("MoveX", lastMoveDir.x);
                 animator.SetFloat("MoveY", lastMoveDir.y);
             }
+
+            // compensate the walk sprites to idle
+            float s = isMoving ? walkScale : 1f;
+            transform.localScale = new Vector3(s, s, 1f);
         }
         // --------------------------------
 
