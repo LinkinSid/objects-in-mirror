@@ -19,9 +19,10 @@ public class PlayerScript : MonoBehaviour
     private ShadowDetector shadowDetector;
     private Sprite normalSprite;
     private InputAction interactAction;
-    private bool wasSwimming;
+    private bool wasPassingThrough;
     private bool swimToggled;
     private bool onCooldown;
+    private Health health;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class PlayerScript : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
         shadowDetector = GetComponent<ShadowDetector>();
+        health = GetComponent<Health>();
         normalSprite = sr.sprite;
         if (swimPromptText != null)
             swimPromptText.gameObject.SetActive(false);
@@ -67,11 +69,13 @@ public class PlayerScript : MonoBehaviour
         bool swimming = shadowDetector != null
             && shadowDetector.isShadowSwimming
             && shadowDetector.stress < shadowDetector.maxStressValue;
+        bool inIFrames = health != null && health.isInIFrames;
+        bool passThrough = swimming || inIFrames;
 
-        if (swimming != wasSwimming)
+        if (passThrough != wasPassingThrough)
         {
-            wasSwimming = swimming;
-            SetEnemyCollisionIgnored(swimming);
+            wasPassingThrough = passThrough;
+            SetEnemyCollisionIgnored(passThrough);
         }
 
         UpdateSprite();
@@ -111,6 +115,12 @@ public class PlayerScript : MonoBehaviour
             Collider2D enemyCol = enemy.GetComponent<Collider2D>();
             if (enemyCol != null)
                 Physics2D.IgnoreCollision(myCollider, enemyCol, ignore);
+        }
+        foreach (var boss in FindObjectsByType<BossController>(FindObjectsSortMode.None))
+        {
+            Collider2D bossCol = boss.GetComponent<Collider2D>();
+            if (bossCol != null)
+                Physics2D.IgnoreCollision(myCollider, bossCol, ignore);
         }
     }
 

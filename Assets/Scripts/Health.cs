@@ -22,6 +22,8 @@ public class Health : MonoBehaviour
     private SpriteRenderer sr;
     private bool isPlayer;
 
+    public bool isInIFrames => invincibilityTimer > 0f;
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();

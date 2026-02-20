@@ -16,7 +16,7 @@ public class BossController : MonoBehaviour
     public float dangerZoneDamage = 20f;
     public float dangerZoneTelegraph = 1.5f;
     public float dangerZoneAheadDistance = 4f;
-    public float dangerZoneSpread = 2f;
+    public float dangerZoneSpread = 4f;
 
     [Header("Proximity Shake")]
     public float shakeMaxDistance = 10f;
@@ -102,8 +102,10 @@ public class BossController : MonoBehaviour
         for (int i = 0; i < dangerZoneCount; i++)
         {
             Vector2 offset = Random.insideUnitCircle * dangerZoneSpread;
+            Vector2 spawnPos = aheadPos + offset;
+
             DangerZone.Spawn(
-                aheadPos + offset, dangerZoneRadius, dangerZoneDamage,
+                spawnPos, dangerZoneRadius, dangerZoneDamage,
                 dangerZoneTelegraph, playerHealth
             );
         }
