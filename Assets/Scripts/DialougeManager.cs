@@ -10,12 +10,18 @@ public class DialogueManager : MonoBehaviour
     public GameObject dialogueBorder;
     public TextMeshProUGUI dialogueText;
     public float typingSpeed = 0.03f;
+    public float animationDuration = 0.3f;
+    public float slideDistance = 300f;
     public InputActionReference interactAction;
 
     private string[] lines;
     private int currentLine;
     private bool isTyping;
     private bool isDialogueActive;
+    private CanvasGroup boxCanvasGroup;
+    private CanvasGroup borderCanvasGroup;
+    private Vector3 boxOriginalPos;
+    private Vector3 borderOriginalPos;
 
     void Start()
     {
@@ -33,9 +39,23 @@ public class DialogueManager : MonoBehaviour
         }
 
         if (dialogueBox != null)
+        {
             dialogueBox.SetActive(false);
+            if (dialogueBox.GetComponent<CanvasGroup>() == null)
+                boxCanvasGroup = dialogueBox.AddComponent<CanvasGroup>();
+            else
+                boxCanvasGroup = dialogueBox.GetComponent<CanvasGroup>();
+            boxOriginalPos = dialogueBox.transform.localPosition;
+        }
         if (dialogueBorder != null)
+        {
             dialogueBorder.SetActive(false);
+            if (dialogueBorder.GetComponent<CanvasGroup>() == null)
+                borderCanvasGroup = dialogueBorder.AddComponent<CanvasGroup>();
+            else
+                borderCanvasGroup = dialogueBorder.GetComponent<CanvasGroup>();
+            borderOriginalPos = dialogueBorder.transform.localPosition;
+        }
     }
 
     private void OnEnable()
@@ -72,12 +92,63 @@ public class DialogueManager : MonoBehaviour
         lines = dialogueLines;
         currentLine = 0;
         isDialogueActive = true;
+        StartCoroutine(ShowDialogueWithAnimation());
+    }
+
+    IEnumerator ShowDialogueWithAnimation()
+    {
         dialogueBox.SetActive(true);
         if (dialogueBorder != null)
             dialogueBorder.SetActive(true);
+
+        dialogueBox.transform.localPosition = boxOriginalPos - new Vector3(0, slideDistance, 0);
+        if (dialogueBorder != null)
+            dialogueBorder.transform.localPosition = borderOriginalPos - new Vector3(0, slideDistance, 0);
+
+        if (boxCanvasGroup != null)
+            boxCanvasGroup.alpha = 0f;
+        if (borderCanvasGroup != null)
+            borderCanvasGroup.alpha = 0f;
+
         Canvas.ForceUpdateCanvases();
-        StartCoroutine(TypeLine());
         Time.timeScale = 0f;
+
+        float elapsed = 0f;
+        while (elapsed < animationDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = elapsed / animationDuration;
+            float easeOut = 1f - Mathf.Pow(1f - t, 3f);
+
+            dialogueBox.transform.localPosition = Vector3.Lerp(
+                boxOriginalPos - new Vector3(0, slideDistance, 0),
+                boxOriginalPos,
+                easeOut
+            );
+            if (dialogueBorder != null)
+                dialogueBorder.transform.localPosition = Vector3.Lerp(
+                    borderOriginalPos - new Vector3(0, slideDistance, 0),
+                    borderOriginalPos,
+                    easeOut
+                );
+
+            if (boxCanvasGroup != null)
+                boxCanvasGroup.alpha = t;
+            if (borderCanvasGroup != null)
+                borderCanvasGroup.alpha = t;
+
+            yield return null;
+        }
+
+        dialogueBox.transform.localPosition = boxOriginalPos;
+        if (dialogueBorder != null)
+            dialogueBorder.transform.localPosition = borderOriginalPos;
+        if (boxCanvasGroup != null)
+            boxCanvasGroup.alpha = 1f;
+        if (borderCanvasGroup != null)
+            borderCanvasGroup.alpha = 1f;
+
+        StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()
@@ -104,11 +175,43 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            dialogueBox.SetActive(false);
-            if (dialogueBorder != null)
-                dialogueBorder.SetActive(false);
-            isDialogueActive = false;
-            Time.timeScale = 1f;
+            StartCoroutine(HideDialogueWithAnimation());
         }
+    }
+
+    IEnumerator HideDialogueWithAnimation()
+    {
+        float elapsed = 0f;
+        while (elapsed < animationDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = 1f - (elapsed / animationDuration);
+            float easeIn = Mathf.Pow(t, 3f);
+
+            dialogueBox.transform.localPosition = Vector3.Lerp(
+                boxOriginalPos - new Vector3(0, slideDistance, 0),
+                boxOriginalPos,
+                easeIn
+            );
+            if (dialogueBorder != null)
+                dialogueBorder.transform.localPosition = Vector3.Lerp(
+                    borderOriginalPos - new Vector3(0, slideDistance, 0),
+                    borderOriginalPos,
+                    easeIn
+                );
+
+            if (boxCanvasGroup != null)
+                boxCanvasGroup.alpha = t;
+            if (borderCanvasGroup != null)
+                borderCanvasGroup.alpha = t;
+
+            yield return null;
+        }
+
+        dialogueBox.SetActive(false);
+        if (dialogueBorder != null)
+            dialogueBorder.SetActive(false);
+        isDialogueActive = false;
+        Time.timeScale = 1f;
     }
 }
