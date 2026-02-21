@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    public event Action onDeath;
+
     public float maxHealth = 100f;
 
     [Header("Contact Damage")]
@@ -96,6 +99,7 @@ public class Health : MonoBehaviour
         var player = GetComponent<PlayerScript>();
         if (player != null) player.enabled = false;
 
+        onDeath?.Invoke();
         enabled = false;
     }
 

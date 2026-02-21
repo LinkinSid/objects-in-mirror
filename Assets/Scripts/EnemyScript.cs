@@ -5,7 +5,7 @@ public class EnemyScript : MonoBehaviour
 {
     public EnemyConfig config;
     public Transform player;
-    public BoxCollider2D backgroundCollider;
+    public Collider2D backgroundCollider;
     public Transform[] patrolWaypoints;
 
     private float moveSpeed;
@@ -124,8 +124,11 @@ public class EnemyScript : MonoBehaviour
 
     void BuildGrid()
     {
-        Vector2 center = (Vector2)backgroundCollider.transform.position + backgroundCollider.offset;
-        Vector2 size = backgroundCollider.size;
+        // Use the composite bounds
+        CompositeCollider2D composite = backgroundCollider.GetComponent<CompositeCollider2D>();
+        Bounds b = composite != null ? composite.bounds : backgroundCollider.bounds;
+        Vector2 center = b.center;
+        Vector2 size = b.size;
 
         gridOrigin = center - size / 2f;
         gridWidth = Mathf.CeilToInt(size.x / cellSize);
@@ -145,7 +148,7 @@ public class EnemyScript : MonoBehaviour
                 bool hasTrap = false;
                 foreach (Collider2D hit in hits)
                 {
-                    if (hit != myCollider && hit != playerCollider && !hit.isTrigger)
+                    if (hit != myCollider && hit != playerCollider && hit.gameObject != backgroundCollider.gameObject && !hit.isTrigger)
                     {
                         walkable = false;
                         break;
@@ -161,6 +164,7 @@ public class EnemyScript : MonoBehaviour
 
     bool IsWalkable(int x, int y)
     {
+        if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight) return false;
         if (!grid[x, y]) return false;
         if (!isAlerted && trapGrid[x, y]) return false;
         return true;
@@ -519,6 +523,14 @@ public class EnemyScript : MonoBehaviour
     // A* pathfinding
     List<Vector2> FindPath(int startX, int startY, int endX, int endY)
     {
+        if (gridWidth == 0 || gridHeight == 0)
+            return new List<Vector2>();
+
+        startX = Mathf.Clamp(startX, 0, gridWidth - 1);
+        startY = Mathf.Clamp(startY, 0, gridHeight - 1);
+        endX = Mathf.Clamp(endX, 0, gridWidth - 1);
+        endY = Mathf.Clamp(endY, 0, gridHeight - 1);
+
         int[,] gCost = new int[gridWidth, gridHeight];
         int[,] fCost = new int[gridWidth, gridHeight];
         int[,] parentX = new int[gridWidth, gridHeight];

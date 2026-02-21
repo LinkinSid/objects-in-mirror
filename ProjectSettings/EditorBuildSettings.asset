@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 0
-    path: Assets/Scenes/Final-Boss-Test.unity
-    guid: 1ee21d97b31dd64949c30c287b4cb41b
+    path: Assets/Scenes/Final-Scenes/MainMenu.unity
+    guid: a7f8d20840286dbe0b39174b50064acb
+  - enabled: 1
+    path: Assets/Scenes/Final-Scenes/Room-1.unity
+    guid: e7e494ab901c9bc4590b9aa21b4d43ac
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

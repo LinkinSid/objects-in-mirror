@@ -55,6 +55,8 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.IsPaused) return;
+
         // -------- ANIMATION LOGIC --------
         bool isMoving = moveInput != Vector2.zero;
 
