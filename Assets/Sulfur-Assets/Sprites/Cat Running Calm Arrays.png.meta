@@ -1,0 +1,535 @@
+fileFormatVersion: 2
+guid: 6e7a30f2f62c1654a98ae53a9081bdc2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5852643419752959233
+    second: Cat Running Calm Arrays_0
+  - first:
+      213: -1436553635123242197
+    second: Cat Running Calm Arrays_1
+  - first:
+      213: 2635421052055066710
+    second: Cat Running Calm Arrays_2
+  - first:
+      213: 1453901934270212612
+    second: Cat Running Calm Arrays_3
+  - first:
+      213: 5351827618383727089
+    second: Cat Running Calm Arrays_4
+  - first:
+      213: -7080260672918772987
+    second: Cat Running Calm Arrays_5
+  - first:
+      213: 5382186537253363879
+    second: Cat Running Calm Arrays_6
+  - first:
+      213: -7765372245871348093
+    second: Cat Running Calm Arrays_7
+  - first:
+      213: 833372004995292526
+    second: Cat Running Calm Arrays_8
+  - first:
+      213: -3354098582207762824
+    second: Cat Running Calm Arrays_9
+  - first:
+      213: 8911591092017767596
+    second: Cat Running Calm Arrays_10
+  - first:
+      213: 6135413076151330935
+    second: Cat Running Calm Arrays_11
+  - first:
+      213: -4426606860764239328
+    second: Cat Running Calm Arrays_12
+  - first:
+      213: 8120841935249728507
+    second: Cat Running Calm Arrays_13
+  - first:
+      213: -21147463172700934
+    second: Cat Running Calm Arrays_14
+  - first:
+      213: -8617553772696710836
+    second: Cat Running Calm Arrays_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 540
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_0
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1789
+        width: 368
+        height: 223
+      alignment: 9
+      pivot: {x: 0.7426719, y: 0.47869846}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff2f89081db37cea0800000000000000
+      internalID: -5852643419752959233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_1
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 1810
+        width: 381
+        height: 215
+      alignment: 9
+      pivot: {x: 0.73151773, y: 0.37691963}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2bdead7416501ce0800000000000000
+      internalID: -1436553635123242197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_2
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 1800
+        width: 394
+        height: 261
+      alignment: 9
+      pivot: {x: 0.7578748, y: 0.4748853}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6581459db75e29420800000000000000
+      internalID: 2635421052055066710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_3
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 1799
+        width: 345
+        height: 244
+      alignment: 9
+      pivot: {x: 0.7588751, y: 0.4630612}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40aed6a2b1c4d2410800000000000000
+      internalID: 1453901934270212612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_4
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 1249
+        width: 369
+        height: 223
+      alignment: 9
+      pivot: {x: 0.25014615, y: 0.4787981}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f903ec1dd2854a40800000000000000
+      internalID: 5351827618383727089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_5
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 1270
+        width: 381
+        height: 215
+      alignment: 9
+      pivot: {x: 0.26422024, y: 0.3817996}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50322894e6cddbd90800000000000000
+      internalID: -7080260672918772987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_6
+      rect:
+        serializedVersion: 2
+        x: 1165
+        y: 1260
+        width: 394
+        height: 261
+      alignment: 9
+      pivot: {x: 0.24499977, y: 0.48188496}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a060ebb32e51ba40800000000000000
+      internalID: 5382186537253363879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_7
+      rect:
+        serializedVersion: 2
+        x: 1768
+        y: 1259
+        width: 343
+        height: 244
+      alignment: 9
+      pivot: {x: 0.24259073, y: 0.46020907}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3863928c51bdb3490800000000000000
+      internalID: -7765372245871348093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_8
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 647
+        width: 166
+        height: 354
+      alignment: 9
+      pivot: {x: 0.49291405, y: 0.27570823}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6ddf735c6bb09b00800000000000000
+      internalID: 833372004995292526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_9
+      rect:
+        serializedVersion: 2
+        x: 734
+        y: 625
+        width: 152
+        height: 381
+      alignment: 9
+      pivot: {x: 0.5116075, y: 0.2854281}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87e6dd93c19d371d0800000000000000
+      internalID: -3354098582207762824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_10
+      rect:
+        serializedVersion: 2
+        x: 1274
+        y: 630
+        width: 152
+        height: 376
+      alignment: 9
+      pivot: {x: 0.5077378, y: 0.3216801}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca4214fe1e45cab70800000000000000
+      internalID: 8911591092017767596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_11
+      rect:
+        serializedVersion: 2
+        x: 1806
+        y: 709
+        width: 170
+        height: 310
+      alignment: 9
+      pivot: {x: 0.49307933, y: 0.23818162}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 778694a9fad552550800000000000000
+      internalID: 6135413076151330935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_12
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 51
+        width: 152
+        height: 354
+      alignment: 9
+      pivot: {x: 0.5072162, y: 0.60379857}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02a27d763888192c0800000000000000
+      internalID: -4426606860764239328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_13
+      rect:
+        serializedVersion: 2
+        x: 734
+        y: 39
+        width: 152
+        height: 400
+      alignment: 9
+      pivot: {x: 0.49642143, y: 0.6060772}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf3e7abc6b603b070800000000000000
+      internalID: 8120841935249728507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_14
+      rect:
+        serializedVersion: 2
+        x: 1274
+        y: 35
+        width: 152
+        height: 384
+      alignment: 9
+      pivot: {x: 0.5, y: 0.606545}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af4c0b98e7ed4bff0800000000000000
+      internalID: -21147463172700934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat Running Calm Arrays_15
+      rect:
+        serializedVersion: 2
+        x: 1791
+        y: 15
+        width: 198
+        height: 354
+      alignment: 9
+      pivot: {x: 0.51170766, y: 0.70828444}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c41d591608c486880800000000000000
+      internalID: -8617553772696710836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0b3a28ed9ac58f744b6e1509b39be3a5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Cat Running Calm Arrays_0: -5852643419752959233
+      Cat Running Calm Arrays_1: -1436553635123242197
+      Cat Running Calm Arrays_10: 8911591092017767596
+      Cat Running Calm Arrays_11: 6135413076151330935
+      Cat Running Calm Arrays_12: -4426606860764239328
+      Cat Running Calm Arrays_13: 8120841935249728507
+      Cat Running Calm Arrays_14: -21147463172700934
+      Cat Running Calm Arrays_15: -8617553772696710836
+      Cat Running Calm Arrays_2: 2635421052055066710
+      Cat Running Calm Arrays_3: 1453901934270212612
+      Cat Running Calm Arrays_4: 5351827618383727089
+      Cat Running Calm Arrays_5: -7080260672918772987
+      Cat Running Calm Arrays_6: 5382186537253363879
+      Cat Running Calm Arrays_7: -7765372245871348093
+      Cat Running Calm Arrays_8: 833372004995292526
+      Cat Running Calm Arrays_9: -3354098582207762824
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

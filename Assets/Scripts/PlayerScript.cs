@@ -4,7 +4,12 @@ using TMPro;
 
 public class PlayerScript : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float walkSpeed = 3f;
+    public float runSpeed = 6f;
+
+    [Header("Dash")]
+    public float dashDistance = 3f;
+    public float dashDuration = 0.2f;
 
     [Header("Shadow Swim")]
     public Sprite swimSprite;
@@ -15,14 +20,19 @@ public class PlayerScript : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D myCollider;
     private Vector2 moveInput;
+    private bool isRunning;
     private SpriteRenderer sr;
     private ShadowDetector shadowDetector;
     private Sprite normalSprite;
     private InputAction interactAction;
+    private InputAction sprintAction;
+    private InputAction dashAction;
     private bool wasPassingThrough;
     private bool swimToggled;
     private bool onCooldown;
     private Health health;
+    private bool isDashing;
+    private float dashTimeRemaining;
 
     [Header("Animation")]
     [Tooltip("Scale applied during walk to match idle sprite size")]
@@ -38,14 +48,17 @@ public class PlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         shadowDetector = GetComponent<ShadowDetector>();
         health = GetComponent<Health>();
-        animator = GetComponent<Animator>(); // NEW
+        animator = GetComponent<Animator>();
 
         normalSprite = sr.sprite;
 
         if (swimPromptText != null)
             swimPromptText.gameObject.SetActive(false);
 
-        interactAction = GetComponent<PlayerInput>().actions["Interact"];
+        var playerInput = GetComponent<PlayerInput>();
+        interactAction = playerInput.actions["Interact"];
+        sprintAction = playerInput.actions["Sprint"];
+        dashAction = playerInput.actions["Dash"];
     }
 
     public void OnMove(InputValue value)
@@ -53,9 +66,29 @@ public class PlayerScript : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
+    public void OnSprint(InputValue value)
+    {
+        isRunning = value.isPressed;
+    }
+
     void Update()
     {
         if (GameManager.IsPaused) return;
+
+        isRunning = sprintAction != null && sprintAction.IsPressed();
+
+        if (dashAction != null && dashAction.WasPressedThisFrame() && !isDashing)
+        {
+            isDashing = true;
+            dashTimeRemaining = dashDuration;
+        }
+
+        if (isDashing)
+        {
+            dashTimeRemaining -= Time.deltaTime;
+            if (dashTimeRemaining <= 0)
+                isDashing = false;
+        }
 
         // -------- ANIMATION LOGIC --------
         bool isMoving = moveInput != Vector2.zero;
@@ -63,26 +96,21 @@ public class PlayerScript : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool("IsMoving", isMoving);
+            animator.SetBool("IsRunning", isRunning);
 
             if (isMoving)
             {
                 // prioritize vertical over horizontal (prevents diagonal confusion)
                 if (Mathf.Abs(moveInput.y) > Mathf.Abs(moveInput.x))
-                {
                     lastMoveDir = new Vector2(0, moveInput.y);
-                }
                 else
-                {
                     lastMoveDir = new Vector2(moveInput.x, 0);
-                }
 
                 animator.SetFloat("MoveX", lastMoveDir.x);
                 animator.SetFloat("MoveY", lastMoveDir.y);
             }
 
-            // compensate the walk sprites to idle
-            float s = isMoving ? walkScale : 1f;
-            transform.localScale = new Vector3(s, s, 1f);
+            transform.localScale = Vector3.one;
         }
         // --------------------------------
 
@@ -168,7 +196,13 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        float speed = moveSpeed;
+        if (isDashing)
+        {
+            rb.linearVelocity = lastMoveDir.normalized * (dashDistance / dashDuration);
+            return;
+        }
+
+        float speed = isRunning ? runSpeed : walkSpeed;
 
         if (shadowDetector != null && shadowDetector.isShadowSwimming)
             speed *= shadowDetector.swimSpeedValue;
