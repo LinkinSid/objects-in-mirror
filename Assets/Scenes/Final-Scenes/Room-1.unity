@@ -23149,6 +23149,7 @@ GameObject:
   - component: {fileID: 2022150317}
   - component: {fileID: 2022150316}
   - component: {fileID: 2022150322}
+  - component: {fileID: 2022150323}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -23171,6 +23172,7 @@ MonoBehaviour:
   moveSpeed: 5
   swimSprite: {fileID: 3839611741517165852, guid: 45ca3cdad7ca2dc17a3577c5669686bf, type: 3}
   swimPromptText: {fileID: 0}
+  walkScale: 0.88
 --- !u!114 &2022150317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23361,6 +23363,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!320 &2022150323
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022150315}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 0353bbfd7614faf34b8698100018a907, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
