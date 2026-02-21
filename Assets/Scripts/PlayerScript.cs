@@ -34,10 +34,6 @@ public class PlayerScript : MonoBehaviour
     private bool isDashing;
     private float dashTimeRemaining;
 
-    [Header("Animation")]
-    [Tooltip("Scale applied during walk to match idle sprite size")]
-    [SerializeField] private float walkScale = 0.88f;
-
     private Animator animator;
     private Vector2 lastMoveDir = Vector2.down; // default facing down
 
@@ -82,7 +78,7 @@ public class PlayerScript : MonoBehaviour
 
         isRunning = sprintAction != null && sprintAction.IsPressed();
 
-        if (dashAction != null && dashAction.WasPressedThisFrame() && !isDashing)
+        if (dashAction != null && dashAction.WasPressedThisFrame() && !isDashing && moveInput != Vector2.zero)
         {
             isDashing = true;
             dashTimeRemaining = dashDuration;
@@ -100,9 +96,6 @@ public class PlayerScript : MonoBehaviour
 
         if (animator != null)
         {
-            animator.SetBool("IsMoving", isMoving);
-            animator.SetBool("IsRunning", isRunning);
-
             if (isMoving)
             {
                 // prioritize vertical over horizontal (prevents diagonal confusion)
@@ -110,12 +103,12 @@ public class PlayerScript : MonoBehaviour
                     lastMoveDir = new Vector2(0, moveInput.y);
                 else
                     lastMoveDir = new Vector2(moveInput.x, 0);
-
-                animator.SetFloat("MoveX", lastMoveDir.x);
-                animator.SetFloat("MoveY", lastMoveDir.y);
             }
 
-            transform.localScale = Vector3.one;
+            animator.SetBool("IsMoving", isMoving);
+            animator.SetBool("IsRunning", (isRunning || isDashing) && isMoving);
+            animator.SetFloat("MoveX", lastMoveDir.x);
+            animator.SetFloat("MoveY", lastMoveDir.y);
         }
         // --------------------------------
 
