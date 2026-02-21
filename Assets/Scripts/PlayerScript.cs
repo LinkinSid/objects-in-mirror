@@ -50,6 +50,9 @@ public class PlayerScript : MonoBehaviour
         health = GetComponent<Health>();
         animator = GetComponent<Animator>();
 
+        if (animator != null)
+            animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+
         normalSprite = sr.sprite;
 
         if (swimPromptText != null)
@@ -73,7 +76,9 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.IsPaused) return;
+        bool isPaused = Time.timeScale == 0f;
+        
+        if (GameManager.IsPaused || isPaused) return;
 
         isRunning = sprintAction != null && sprintAction.IsPressed();
 
@@ -196,6 +201,12 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Time.timeScale == 0f)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (isDashing)
         {
             rb.linearVelocity = lastMoveDir.normalized * (dashDistance / dashDuration);
