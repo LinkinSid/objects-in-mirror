@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     private string[] lines;
     private int currentLine;
     private bool isTyping;
+    private bool isDialogueActive;
 
     void Start()
     {
@@ -66,8 +67,11 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string[] dialogueLines)
     {
+        if (isDialogueActive) return;
+
         lines = dialogueLines;
         currentLine = 0;
+        isDialogueActive = true;
         dialogueBox.SetActive(true);
         if (dialogueBorder != null)
             dialogueBorder.SetActive(true);
@@ -103,6 +107,7 @@ public class DialogueManager : MonoBehaviour
             dialogueBox.SetActive(false);
             if (dialogueBorder != null)
                 dialogueBorder.SetActive(false);
+            isDialogueActive = false;
             Time.timeScale = 1f;
         }
     }

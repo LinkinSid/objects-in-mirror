@@ -9,6 +9,7 @@ public class DialogueTrigger : MonoBehaviour
     public InputActionReference interactAction;
 
     private bool playerInRange;
+    private bool hasTriggered;
 
     void OnEnable()
     {
@@ -24,11 +25,14 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
+        if (hasTriggered) return;
+
         if (playerInRange && interactAction != null && interactAction.action.WasPressedThisFrame())
         {
             if (dialogueManager != null && !dialogueManager.dialogueBox.activeSelf)
             {
                 dialogueManager.StartDialogue(dialogueLines);
+                hasTriggered = true;
             }
         }
     }
@@ -46,6 +50,7 @@ public class DialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            hasTriggered = false;
         }
     }
 }
