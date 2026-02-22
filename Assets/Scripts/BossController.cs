@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BossController : MonoBehaviour
@@ -24,10 +25,18 @@ public class BossController : MonoBehaviour
     public float contactDamage = 25f;
     public float contactCooldown = 1f;
 
+    [Header("Death Cutscene")]
+    public float panSpeed = 2f;
+    public float idleHoldTime = 0.5f;
+    public float deathAnimDuration = 2.5f;
+    public float panBackSpeed = 2f;
+
     // State
     float dangerZoneTimer;
     float contactTimer;
     bool chaseStarted;
+    bool spawning;
+    bool defeated;
 
     // Cached
     Rigidbody2D rb;
@@ -35,25 +44,36 @@ public class BossController : MonoBehaviour
     Health playerHealth;
     ShadowDetector playerShadow;
     Rigidbody2D playerRb;
+    Animator animator;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         cam = Camera.main.GetComponent<CameraFollow>();
         playerHealth = player.GetComponent<Health>();
         playerShadow = player.GetComponent<ShadowDetector>();
         playerRb = player.GetComponent<Rigidbody2D>();
 
         dangerZoneTimer = dangerZoneInterval;
+
+        // Disable animator until boss appears on screen;
+        // spawn is the default state so it plays when enabled
+        if (animator != null)
+            animator.enabled = false;
     }
 
     void Update()
     {
+        if (defeated) return;
+
         if (playerHealth != null && playerHealth.isDead)
         {
             rb.linearVelocity = Vector2.zero;
             return;
         }
+
+        if (spawning) return;
 
         if (!chaseStarted)
         {
@@ -65,13 +85,17 @@ public class BossController : MonoBehaviour
 
             if (onScreen)
             {
-                chaseStarted = true;
+                spawning = true;
 
                 if (AudioManager.Instance != null)
                 {
                     AudioManager.Instance.PlayBossRoarSFX();
                     AudioManager.Instance.PlayBossMusic();
                 }
+
+                // Enable animator — default state is boss_spawn
+                if (animator != null)
+                    animator.enabled = true;
             }
             return;
         }
@@ -83,10 +107,32 @@ public class BossController : MonoBehaviour
             contactTimer -= Time.deltaTime;
     }
 
+    // Called by Spawn animation event on the last frame
+    public void OnSpawnComplete()
+    {
+        spawning = false;
+        chaseStarted = true;
+    }
+
     void UpdateChase()
     {
         Vector2 dir = ((Vector2)player.position - rb.position).normalized;
         rb.linearVelocity = dir * chaseSpeed;
+
+        // Track dominant direction for attack animation selection
+        if (animator != null)
+        {
+            if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y))
+            {
+                animator.SetFloat("MoveX", Mathf.Sign(dir.x));
+                animator.SetFloat("MoveY", 0f);
+            }
+            else
+            {
+                animator.SetFloat("MoveX", 0f);
+                animator.SetFloat("MoveY", Mathf.Sign(dir.y));
+            }
+        }
     }
 
     void UpdateDangerZones()
@@ -153,6 +199,9 @@ public class BossController : MonoBehaviour
             playerHealth.TakeDamage(contactDamage);
             contactTimer = contactCooldown;
 
+            if (animator != null)
+                animator.SetTrigger("Attack");
+
             if (cam != null)
                 cam.Shake(0.3f, 0.3f);
         }
@@ -160,8 +209,69 @@ public class BossController : MonoBehaviour
 
     public void StopChase()
     {
+        defeated = true;
         chaseStarted = false;
         rb.linearVelocity = Vector2.zero;
-        enabled = false;
+        StartCoroutine(DeathCutsceneRoutine());
     }
+
+    IEnumerator DeathCutsceneRoutine()
+    {
+        // 1. Freeze gameplay
+        Time.timeScale = 0f;
+
+        // 2. Let animator run during freeze
+        if (animator != null)
+        {
+            animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+            animator.Play("boss_idle", 0, 0f);
+        }
+
+        // 3. Pan camera to boss
+        if (cam != null)
+            cam.PanTo(transform.position, panSpeed);
+
+        // 4. Wait for camera to arrive
+        while (cam != null && !cam.HasReachedCinematicTarget())
+            yield return null;
+
+        // 5. Hold on idle boss briefly
+        yield return new WaitForSecondsRealtime(idleHoldTime);
+
+        // 6. Play death animation + SFX + shake
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayBossDeathSFX();
+
+        if (cam != null)
+            cam.Shake(0.5f, 0.4f);
+
+        if (animator != null)
+            animator.Play("boss_death", 0, 0f);
+
+        // 7. Wait for death animation to finish
+        yield return new WaitForSecondsRealtime(deathAnimDuration);
+
+        // 8. Pan camera back to player
+        if (cam != null)
+            cam.PanTo(player.position, panBackSpeed);
+
+        // 9. Wait for camera to arrive at player
+        while (cam != null && !cam.HasReachedCinematicTarget())
+            yield return null;
+
+        // 10. Resume gameplay
+        if (cam != null)
+            cam.ExitCinematic();
+
+        Time.timeScale = 1f;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayPostBossMusic();
+
+        // 11. Deactivate boss
+        gameObject.SetActive(false);
+    }
+
+    // Called by death animation event — no-op, coroutine handles deactivation
+    public void OnDeathComplete() { }
 }

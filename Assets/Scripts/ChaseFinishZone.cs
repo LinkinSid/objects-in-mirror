@@ -18,9 +18,6 @@ public class ChaseFinishZone : MonoBehaviour
         if (boss != null)
             boss.StopChase();
 
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayPostBossMusic();
-
         onChaseComplete?.Invoke();
     }
 }

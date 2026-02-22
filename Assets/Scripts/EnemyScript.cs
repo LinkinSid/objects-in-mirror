@@ -42,7 +42,8 @@ public class EnemyScript : MonoBehaviour
     private float sweepAngle;
     private int sweepDirection = 1;
     private Vector2 sweepCenterDir;
-    private float sentryCheckTimer;
+    private float sentryCheckTimer = 2f;
+    private bool sentryHadCompanions;
 
     // Cached health
     private Health myHealth;
@@ -206,10 +207,11 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        if (grid == null) return;
+        bool isStationary = config != null && config.isStationary;
+        if (grid == null && !isStationary) return;
 
         // Sentry: periodically check if all other enemies are dead
-        if (config != null && config.isStationary)
+        if (isStationary)
         {
             sentryCheckTimer -= Time.deltaTime;
             if (sentryCheckTimer <= 0f)
@@ -223,7 +225,11 @@ public class EnemyScript : MonoBehaviour
                     anyAlive = true;
                     break;
                 }
-                if (!anyAlive)
+
+                if (anyAlive)
+                    sentryHadCompanions = true;
+
+                if (!anyAlive && sentryHadCompanions)
                 {
                     SpriteRenderer sr = GetComponent<SpriteRenderer>();
                     if (config.deathSprite != null && sr != null)

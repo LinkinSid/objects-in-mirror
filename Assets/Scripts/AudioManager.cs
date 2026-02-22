@@ -131,7 +131,7 @@ public class AudioManager : MonoBehaviour
             baseClip = menuMusic;
             PlayMusic(menuMusic);
         }
-        else if (scene.name == "Room-1")
+        else
         {
             baseClip = standardMusic;
             PlayMusic(standardMusic);

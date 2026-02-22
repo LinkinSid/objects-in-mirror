@@ -14,6 +14,10 @@ public class Health : MonoBehaviour
     public float invincibilityDuration = 1.5f;
     public float flashInterval = 0.1f;
 
+    [Header("Health Regen (Player Only)")]
+    public float regenRate = 2f;
+    public float regenDelay = 5f;
+
     [Header("Death")]
     public Sprite deathSprite;
 
@@ -22,6 +26,7 @@ public class Health : MonoBehaviour
     [HideInInspector] public bool invincible;
 
     private float invincibilityTimer;
+    private float regenDelayTimer;
     private SpriteRenderer sr;
     private bool isPlayer;
 
@@ -49,15 +54,31 @@ public class Health : MonoBehaviour
 
     void Update()
     {
-        if (invincibilityTimer <= 0f) return;
+        if (invincibilityTimer > 0f)
+        {
+            invincibilityTimer -= Time.deltaTime;
 
-        invincibilityTimer -= Time.deltaTime;
+            if (sr != null)
+                sr.enabled = Mathf.FloorToInt(invincibilityTimer / flashInterval) % 2 == 0;
 
-        if (sr != null)
-            sr.enabled = Mathf.FloorToInt(invincibilityTimer / flashInterval) % 2 == 0;
+            if (invincibilityTimer <= 0f && sr != null)
+                sr.enabled = true;
+        }
 
-        if (invincibilityTimer <= 0f && sr != null)
-            sr.enabled = true;
+        if (isPlayer && !isDead && currentHealth < maxHealth)
+        {
+            if (regenDelayTimer > 0f)
+                regenDelayTimer -= Time.deltaTime;
+            else
+                currentHealth = Mathf.Min(currentHealth + regenRate * Time.deltaTime, maxHealth);
+        }
+    }
+
+    public void GrantIFrames()
+    {
+        if (isDead || invincibilityTimer > 0f) return;
+        if (invincibilityDuration > 0f)
+            invincibilityTimer = invincibilityDuration;
     }
 
     public void TakeDamage(float amount)
@@ -65,6 +86,7 @@ public class Health : MonoBehaviour
         if (isDead || invincible || invincibilityTimer > 0f) return;
 
         currentHealth = Mathf.Max(currentHealth - amount, 0f);
+        regenDelayTimer = regenDelay;
 
         if (isPlayer && AudioManager.Instance != null)
             AudioManager.Instance.PlayDamageSFX();
@@ -108,6 +130,9 @@ public class Health : MonoBehaviour
 
         var enemy = GetComponent<EnemyScript>();
         if (enemy != null) enemy.enabled = false;
+
+        var boss = GetComponent<BossController>();
+        if (boss != null) boss.enabled = false;
 
         var player = GetComponent<PlayerScript>();
         if (player != null) player.enabled = false;
