@@ -15,6 +15,11 @@ public class CameraFollow : MonoBehaviour
     private Rigidbody2D targetRb;
     private Vector3 lookAheadOffset;
 
+    // Cinematic pan
+    private bool inCinematic;
+    private Vector3 cinematicTarget;
+    private float cinematicSpeed;
+
     void Start()
     {
         if (target != null)
@@ -26,20 +31,31 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null) return;
+        if (target == null && !inCinematic) return;
 
-        Vector3 targetLookAhead = Vector3.zero;
-        if (targetRb != null && targetRb.linearVelocity.sqrMagnitude > 0.1f)
-            targetLookAhead = (Vector3)targetRb.linearVelocity.normalized * lookAheadDistance;
+        Vector3 smoothed;
 
-        lookAheadOffset = Vector3.Lerp(lookAheadOffset, targetLookAhead, lookAheadSmooth * Time.deltaTime);
+        if (inCinematic)
+        {
+            smoothed = Vector3.Lerp(transform.position, cinematicTarget,
+                cinematicSpeed * Time.unscaledDeltaTime);
+        }
+        else
+        {
+            Vector3 targetLookAhead = Vector3.zero;
+            if (targetRb != null && targetRb.linearVelocity.sqrMagnitude > 0.1f)
+                targetLookAhead = (Vector3)targetRb.linearVelocity.normalized * lookAheadDistance;
 
-        Vector3 desiredPosition = target.position + offset + lookAheadOffset;
-        Vector3 smoothed = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+            lookAheadOffset = Vector3.Lerp(lookAheadOffset, targetLookAhead, lookAheadSmooth * Time.deltaTime);
+
+            Vector3 desiredPosition = target.position + offset + lookAheadOffset;
+            smoothed = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+        }
 
         if (shakeTimer > 0)
         {
-            shakeTimer -= Time.deltaTime;
+            float dt = inCinematic ? Time.unscaledDeltaTime : Time.deltaTime;
+            shakeTimer -= dt;
             smoothed += (Vector3)(Random.insideUnitCircle * shakeMagnitude);
             if (shakeTimer <= 0) shakeMagnitude = 0;
         }
@@ -54,5 +70,22 @@ public class CameraFollow : MonoBehaviour
             shakeMagnitude = magnitude;
             shakeTimer = duration;
         }
+    }
+
+    public void PanTo(Vector3 worldPos, float speed = 5f)
+    {
+        inCinematic = true;
+        cinematicTarget = new Vector3(worldPos.x, worldPos.y, transform.position.z);
+        cinematicSpeed = speed;
+    }
+
+    public void ExitCinematic()
+    {
+        inCinematic = false;
+    }
+
+    public bool HasReachedCinematicTarget(float threshold = 0.05f)
+    {
+        return inCinematic && Vector3.Distance(transform.position, cinematicTarget) < threshold;
     }
 }

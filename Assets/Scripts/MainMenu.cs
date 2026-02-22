@@ -59,7 +59,11 @@ public class MainMenu : MonoBehaviour
         StretchFill(mainPanel);
 
         // Title
-        CreateText(mainPanel.transform, "Shadow Swimming Fatass", 72, new Vector2(0, 120));
+        Sprite headingSprite = LoadNameSprite("NAME");
+        if (headingSprite != null)
+            CreateSpriteHeader(mainPanel.transform, headingSprite, new Vector2(0, 300), new Vector2(1400, 470));
+        else
+            CreateText(mainPanel.transform, "HEAVEN", 60, new Vector2(0, 150));
 
         // Subtitle
         var sub = CreateText(mainPanel.transform, "", 28, new Vector2(0, 60));
@@ -192,6 +196,13 @@ public class MainMenu : MonoBehaviour
     {
         string fileName = label.ToLower().Replace(" ", "");
         Texture2D tex = Resources.Load<Texture2D>("Buttons/" + fileName);
+        if (tex == null) return null;
+        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
+            new Vector2(0.5f, 0.5f));
+    }
+    static Sprite LoadNameSprite(string label)
+    {
+        Texture2D tex = Resources.Load<Texture2D>(label);
         if (tex == null) return null;
         return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
             new Vector2(0.5f, 0.5f));

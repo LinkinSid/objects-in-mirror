@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Dash")]
     public float dashDistance = 3f;
     public float dashDuration = 0.2f;
+    public float dashDamage = 20f;
 
     [Header("Shadow Swim")]
     public Sprite swimSprite;
@@ -32,6 +33,8 @@ public class PlayerScript : MonoBehaviour
     private Health health;
     private bool isDashing;
     private float dashTimeRemaining;
+    private bool dashHitBoss;
+    private Stamina stamina;
 
     private Animator animator;
     private Vector2 lastMoveDir = Vector2.down; // default facing down
@@ -46,6 +49,8 @@ public class PlayerScript : MonoBehaviour
         shadowDetector = GetComponent<ShadowDetector>();
         health = GetComponent<Health>();
         animator = GetComponent<Animator>();
+
+        stamina = GetComponent<Stamina>();
 
         if (animator != null)
             animator.updateMode = AnimatorUpdateMode.UnscaledTime;
@@ -78,11 +83,16 @@ public class PlayerScript : MonoBehaviour
         if (GameManager.IsPaused || isPaused) return;
 
         isRunning = sprintAction != null && sprintAction.IsPressed();
+        if (isRunning && stamina != null && !stamina.canSprint)
+            isRunning = false;
 
-        if (dashAction != null && dashAction.WasPressedThisFrame() && !isDashing && moveInput != Vector2.zero)
+        if (dashAction != null && dashAction.WasPressedThisFrame() && !isDashing && moveInput != Vector2.zero
+            && (stamina == null || stamina.canDash))
         {
             isDashing = true;
             dashTimeRemaining = dashDuration;
+            dashHitBoss = false;
+            if (stamina != null) stamina.DrainDash();
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlayDashSFX();
@@ -152,7 +162,7 @@ public class PlayerScript : MonoBehaviour
             && shadowDetector.isShadowSwimming
             && shadowDetector.stress < shadowDetector.maxStressValue;
         bool inIFrames = health != null && health.isInIFrames;
-        bool passThrough = swimming || inIFrames;
+        bool passThrough = swimming || inIFrames || isDashing;
 
         if (passThrough != wasPassingThrough)
         {
@@ -167,6 +177,14 @@ public class PlayerScript : MonoBehaviour
                 AudioManager.Instance.StartFootsteps(isRunning);
             else
                 AudioManager.Instance.StopFootsteps();
+        }
+
+        if (stamina != null)
+        {
+            if (isRunning && moveInput != Vector2.zero)
+                stamina.DrainSprint(Time.deltaTime);
+            else if (!isDashing)
+                stamina.Recharge(Time.deltaTime);
         }
 
         UpdateSprite();
@@ -236,6 +254,31 @@ public class PlayerScript : MonoBehaviour
         if (isDashing)
         {
             rb.linearVelocity = lastMoveDir.normalized * (dashDistance / dashDuration);
+
+            if (!dashHitBoss)
+            {
+                Collider2D[] hits = Physics2D.OverlapCircleAll(rb.position, 0.5f);
+                foreach (var hit in hits)
+                {
+                    BossController boss = hit.GetComponent<BossController>();
+                    if (boss != null)
+                    {
+                        Health bossHealth = boss.GetComponent<Health>();
+                        if (bossHealth != null && !bossHealth.isDead)
+                        {
+                            bossHealth.TakeDamage(dashDamage);
+                            dashHitBoss = true;
+                            if (health != null)
+                                health.GrantIFrames();
+                            CameraFollow cam = Camera.main != null
+                                ? Camera.main.GetComponent<CameraFollow>() : null;
+                            if (cam != null) cam.Shake(0.15f, 0.2f);
+                        }
+                        break;
+                    }
+                }
+            }
+
             return;
         }
 

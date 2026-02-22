@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7822625696495740126}
   - component: {fileID: 4613000602814827759}
   - component: {fileID: 1696524359770463121}
+  - component: {fileID: 8359496794008991472}
   m_Layer: 0
   m_Name: sentry
   m_TagString: Untagged
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2977218721312458593, guid: 0017a91d9eedfcc9f86ac695536162c3, type: 3}
+  m_Sprite: {fileID: -1760114087466603429, guid: 9ad89850796c63b9e8ff6a0055b4da0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,7 +134,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5625, y: 0.4375}
+    oldSize: {x: 4.84, y: 5.08}
     newSize: {x: 0.5625, y: 0.4375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -200,7 +201,31 @@ MonoBehaviour:
   enemyContactDamage: 33
   invincibilityDuration: 1.5
   flashInterval: 0.1
+  regenRate: 2
+  regenDelay: 5
   deathSprite: {fileID: 582917731, guid: d7536f919404442d0b364bbaf0fe941b, type: 3}
   currentHealth: 0
   isDead: 0
   invincible: 0
+--- !u!95 &8359496794008991472
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814710115767120826}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
