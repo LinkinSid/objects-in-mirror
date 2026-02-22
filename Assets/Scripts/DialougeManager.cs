@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     private int currentLine;
     private bool isTyping;
     private bool isDialogueActive;
+    private bool canAdvance;
     private CanvasGroup boxCanvasGroup;
     private CanvasGroup borderCanvasGroup;
     private Vector3 boxOriginalPos;
@@ -70,7 +71,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (dialogueBox.activeSelf && interactAction.action.WasPressedThisFrame())
+        if (dialogueBox.activeSelf && canAdvance && interactAction.action.WasPressedThisFrame())
         {
             if (isTyping)
             {
@@ -92,6 +93,7 @@ public class DialogueManager : MonoBehaviour
         lines = dialogueLines;
         currentLine = 0;
         isDialogueActive = true;
+        canAdvance = false;
         StartCoroutine(ShowDialogueWithAnimation());
     }
 
@@ -148,6 +150,11 @@ public class DialogueManager : MonoBehaviour
         if (borderCanvasGroup != null)
             borderCanvasGroup.alpha = 1f;
 
+        dialogueText.text = "";
+        yield return new WaitForSecondsRealtime(0.05f);
+        Canvas.ForceUpdateCanvases();
+
+        canAdvance = true;
         StartCoroutine(TypeLine());
     }
 
@@ -155,12 +162,11 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
         dialogueText.text = "";
+        Canvas.ForceUpdateCanvases();
 
         foreach (char c in lines[currentLine])
         {
             dialogueText.text += c;
-            if (c != ' ' && AudioManager.Instance != null)
-                AudioManager.Instance.PlaySpeechBlipSFX();
             yield return new WaitForSecondsRealtime(typingSpeed);
         }
 
@@ -214,6 +220,7 @@ public class DialogueManager : MonoBehaviour
         if (dialogueBorder != null)
             dialogueBorder.SetActive(false);
         isDialogueActive = false;
+        canAdvance = false;
         Time.timeScale = 1f;
     }
 }
