@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [Header("Scenes")]
     public string mainMenuScene = "MainMenu";
     public string firstLevelScene = "Room-1";
+    public string bossRoomScene = "Final-room";
 
     [HideInInspector]
     public bool bossChaseActive;
@@ -59,10 +60,17 @@ public class GameManager : MonoBehaviour
     {
         IsPaused = false;
         Time.timeScale = 1f;
+
+        string targetScene;
+        if (bossChaseActive)
+            targetScene = bossRoomScene;
+        else
+            targetScene = SceneManager.GetActiveScene().name;
+
         bossChaseActive = false;
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlayRoomChangeSFX();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(targetScene);
     }
 
     public void GoToMainMenu()

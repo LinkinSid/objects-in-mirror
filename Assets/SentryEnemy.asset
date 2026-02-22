@@ -25,16 +25,17 @@ MonoBehaviour:
   visionHalfAngle: 30
   canSeeShadowSwimmer: 0
   visionConeColor: {r: 1, g: 0.9, b: 0, a: 0.14901961}
-  alertDuration: 2
+  alertDuration: 10
   alertSpeedMultiplier: 1.5
   alertsNearbyEnemies: 1
-  alertBroadcastRadius: 10
+  alertBroadcastRadius: 100
   cellSize: 0.5
   pathRecalcInterval: 0.5
   gridBufferMultiplier: 1.1
   waypointReachDist: 0.3
   wanderMode: 0
   wanderRadius: 4
+  passiveAwarenessRange: 50
   maxHealth: 100
   contactDamage: 15
   invincibilityDuration: 1.5

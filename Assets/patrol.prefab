@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2329007860863196790}
   - component: {fileID: 1936309436437755414}
   - component: {fileID: 1892095351677557202}
+  - component: {fileID: -1210857607010455562}
   m_Layer: 0
   m_Name: patrol
   m_TagString: Untagged
@@ -206,6 +207,8 @@ MonoBehaviour:
   enemyContactDamage: 33
   invincibilityDuration: 1.5
   flashInterval: 0.1
+  regenRate: 2
+  regenDelay: 5
   deathSprite: {fileID: 582917731, guid: d7536f919404442d0b364bbaf0fe941b, type: 3}
   currentHealth: 0
   isDead: 0
@@ -249,3 +252,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1210857607010455562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4549219166111624156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6400d4a4349ed99e8b83bbe3b0a02dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnlitSprite

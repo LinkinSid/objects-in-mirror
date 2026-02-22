@@ -28,6 +28,10 @@ public class ShadowDetector : MonoBehaviour
         // --- Light-based shadow detection ---
         isInShadow = true; // assume shadow until a light reaches us
 
+        // DarkenRoom overlay active = treat as shadow
+        if (GameManager.Instance != null && GameManager.Instance.bossChaseActive)
+            goto Swimming;
+
         if (lights != null)
         {
             foreach (Light2D light in lights)
@@ -73,6 +77,7 @@ public class ShadowDetector : MonoBehaviour
             }
         }
 
+        Swimming:
         // --- Shadow swimming ---
         isShadowSwimming = isInShadow && swimHeld;
 

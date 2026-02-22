@@ -131,6 +131,13 @@ public class AudioManager : MonoBehaviour
             baseClip = menuMusic;
             PlayMusic(menuMusic);
         }
+        else if (GameManager.Instance != null && GameManager.Instance.bossChaseActive)
+        {
+            // Keep boss music during retreat
+            baseClip = bossMusic;
+            if (activeMusicSource.clip != bossMusic)
+                PlayMusic(bossMusic);
+        }
         else
         {
             baseClip = standardMusic;

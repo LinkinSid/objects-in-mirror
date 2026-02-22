@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 using TMPro;
 
 public class DialogueTrigger : MonoBehaviour
@@ -9,6 +10,8 @@ public class DialogueTrigger : MonoBehaviour
     public DialogueManager dialogueManager;
     public InputActionReference interactAction;
     public float promptYOffset = 1f;
+    public UnityEvent onInteract;
+    public bool hideOnInteract;
 
     private bool playerInRange;
     private bool hasTriggered;
@@ -45,6 +48,17 @@ public class DialogueTrigger : MonoBehaviour
             {
                 dialogueManager.StartDialogue(dialogueLines);
                 hasTriggered = true;
+                onInteract?.Invoke();
+                if (hideOnInteract)
+                {
+                    // Hide visually but keep GameObject active so OnDisable
+                    // doesn't kill the interact action mid-dialogue
+                    var sr = GetComponent<SpriteRenderer>();
+                    if (sr != null) sr.enabled = false;
+                    var col = GetComponent<Collider2D>();
+                    if (col != null) col.enabled = false;
+                    if (promptObject != null) promptObject.SetActive(false);
+                }
             }
         }
     }

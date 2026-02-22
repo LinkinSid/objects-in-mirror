@@ -97,35 +97,30 @@ public class BossController : MonoBehaviour
         if (spawning) return;
 
         if (!chaseStarted)
-        {
-            // Start chase when boss is visible on camera
-            Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
-            bool onScreen = viewPos.x >= 0f && viewPos.x <= 1f
-                         && viewPos.y >= 0f && viewPos.y <= 1f
-                         && viewPos.z > 0f;
-
-            if (onScreen)
-            {
-                spawning = true;
-
-                if (AudioManager.Instance != null)
-                {
-                    AudioManager.Instance.PlayBossRoarSFX();
-                    AudioManager.Instance.PlayBossMusic();
-                }
-
-                // Enable animator — default state is boss_spawn
-                if (animator != null)
-                    animator.enabled = true;
-            }
             return;
-        }
 
         UpdateChase();
         UpdateDangerZones();
 
         if (contactTimer > 0)
             contactTimer -= Time.deltaTime;
+    }
+
+    // Call this to start the boss spawn (e.g. from CORE_3 interaction)
+    public void TriggerSpawn()
+    {
+        if (chaseStarted || spawning) return;
+
+        spawning = true;
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayBossRoarSFX();
+            AudioManager.Instance.PlayBossMusic();
+        }
+
+        if (animator != null)
+            animator.enabled = true;
     }
 
     // Called by Spawn animation event on the last frame

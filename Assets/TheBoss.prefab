@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1359389592471605541}
   - component: {fileID: 4638385191377713385}
   - component: {fileID: 1336478354900493689}
+  - component: {fileID: -6244458374350270392}
   m_Layer: 6
   m_Name: TheBoss
   m_TagString: Untagged
@@ -173,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc2d21f56ac71a9a7924591273249900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 10
+  maxHealth: 500
   enemyContactDamage: 15
   invincibilityDuration: 1.5
   flashInterval: 0.1
@@ -196,8 +197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   player: {fileID: 0}
-  chaseSpeed: 3
-  dangerZoneInterval: 3
+  chaseSpeed: 4
+  dangerZoneInterval: 2
   dangerZoneCount: 4
   dangerZoneRadius: 2
   dangerZoneDamage: 20
@@ -304,3 +305,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-6244458374350270392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002366529745241108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6400d4a4349ed99e8b83bbe3b0a02dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnlitSprite

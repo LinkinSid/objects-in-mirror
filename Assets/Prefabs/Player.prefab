@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 261664387527738791}
   - component: {fileID: 4323676212290620615}
   - component: {fileID: 8844989758377578143}
+  - component: {fileID: 3226369415734261379}
+  - component: {fileID: 4190628596135441234}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -35,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 380294539174309958}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0302, y: -0.32, z: 0}
+  m_LocalPosition: {x: -0, y: -35.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67,7 +69,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: e827a5bc4f47b1699a86337b271e0d07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,8 +136,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0041826963, y: -0.30500996}
-  m_Size: {x: 0.49680567, y: 0.8997266}
+  m_Offset: {x: 0.003957778, y: -0.05841589}
+  m_Size: {x: 0.54033285, y: 1.4485884}
   m_Direction: 0
 --- !u!50 &6646868642981917168
 Rigidbody2D:
@@ -210,6 +212,7 @@ MonoBehaviour:
   runSpeed: 6
   dashDistance: 3
   dashDuration: 0.2
+  dashDamage: 20
   swimSprite: {fileID: 3839611741517165852, guid: 45ca3cdad7ca2dc17a3577c5669686bf, type: 3}
   swimPromptText: {fileID: 0}
 --- !u!95 &2850333386571522839
@@ -267,6 +270,8 @@ MonoBehaviour:
   enemyContactDamage: 15
   invincibilityDuration: 1.5
   flashInterval: 0.1
+  regenRate: 2
+  regenDelay: 5
   deathSprite: {fileID: 0}
   currentHealth: 0
   isDead: 0
@@ -300,8 +305,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda66f65bfd060d40b7b82334cc87fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowDetector
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 64
   maxStress: 100
   stressGainRate: 15
   stressDecayRate: 10
   swimSpeedMultiplier: 1.5
   swimHeld: 0
+--- !u!114 &3226369415734261379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380294539174309958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa6b0596033213e2aace9ec53b2c2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stamina
+  maxStamina: 100
+  sprintDrainRate: 10
+  dashCost: 20
+  rechargeRate: 35
+  rechargeDelay: 0.3
+  currentStamina: 0
+--- !u!114 &4190628596135441234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380294539174309958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bccceb309b5464179a857b94927ae65e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StaminaBarUI
+  barColor: {r: 0.2, g: 0.5, b: 1, a: 1}
+  backgroundColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  barWidth: 1.2
+  barHeight: 0.1
+  yOffset: 0.6
