@@ -31,7 +31,7 @@ MonoBehaviour:
   alertBroadcastRadius: 0
   cellSize: 0.5
   pathRecalcInterval: 0.5
-  gridBufferMultiplier: 1.8
+  gridBufferMultiplier: 1.1
   waypointReachDist: 0.3
   wanderMode: 0
   wanderRadius: 4

@@ -1,0 +1,910 @@
+fileFormatVersion: 2
+guid: 9ad89850796c63b9e8ff6a0055b4da0c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1760114087466603429
+    second: Enemy_1_Animations_Frames_Bright_Array_0
+  - first:
+      213: -6430013185222528399
+    second: Enemy_1_Animations_Frames_Bright_Array_1
+  - first:
+      213: -7139293310356037984
+    second: Enemy_1_Animations_Frames_Bright_Array_2
+  - first:
+      213: -6832619644387474820
+    second: Enemy_1_Animations_Frames_Bright_Array_3
+  - first:
+      213: -923419780518560685
+    second: Enemy_1_Animations_Frames_Bright_Array_4
+  - first:
+      213: -2437939590799265583
+    second: Enemy_1_Animations_Frames_Bright_Array_5
+  - first:
+      213: -394178611435714378
+    second: Enemy_1_Animations_Frames_Bright_Array_6
+  - first:
+      213: 8600992215581916054
+    second: Enemy_1_Animations_Frames_Bright_Array_7
+  - first:
+      213: -6274618130321872869
+    second: Enemy_1_Animations_Frames_Bright_Array_8
+  - first:
+      213: -2176525723273589295
+    second: Enemy_1_Animations_Frames_Bright_Array_9
+  - first:
+      213: -7653843595713054907
+    second: Enemy_1_Animations_Frames_Bright_Array_10
+  - first:
+      213: -6999686347048298208
+    second: Enemy_1_Animations_Frames_Bright_Array_11
+  - first:
+      213: -3420839282006453931
+    second: Enemy_1_Animations_Frames_Bright_Array_12
+  - first:
+      213: -794601409411837674
+    second: Enemy_1_Animations_Frames_Bright_Array_13
+  - first:
+      213: -1179576364384085404
+    second: Enemy_1_Animations_Frames_Bright_Array_14
+  - first:
+      213: 7299331860681019756
+    second: Enemy_1_Animations_Frames_Bright_Array_15
+  - first:
+      213: -2151549179558264250
+    second: Enemy_1_Animations_Frames_Bright_Array_16
+  - first:
+      213: -593133903804709771
+    second: Enemy_1_Animations_Frames_Bright_Array_17
+  - first:
+      213: 63573570649706140
+    second: Enemy_1_Animations_Frames_Bright_Array_18
+  - first:
+      213: 8479907682916376925
+    second: Enemy_1_Animations_Frames_Bright_Array_19
+  - first:
+      213: 878634062134877055
+    second: Enemy_1_Animations_Frames_Bright_Array_20
+  - first:
+      213: -2058855546853982326
+    second: Enemy_1_Animations_Frames_Bright_Array_21
+  - first:
+      213: 7427434837965737086
+    second: Enemy_1_Animations_Frames_Bright_Array_22
+  - first:
+      213: -1666929529986990097
+    second: Enemy_1_Animations_Frames_Bright_Array_23
+  - first:
+      213: -356532315522303171
+    second: Enemy_1_Animations_Frames_Bright_Array_24
+  - first:
+      213: 6243990384376968887
+    second: Enemy_1_Animations_Frames_Bright_Array_25
+  - first:
+      213: 6534274751224928325
+    second: Enemy_1_Animations_Frames_Bright_Array_26
+  - first:
+      213: 5122150689102092902
+    second: Enemy_1_Animations_Frames_Bright_Array_27
+  - first:
+      213: -262323152659046646
+    second: Enemy_1_Animations_Frames_Bright_Array_28
+  - first:
+      213: 4745781616788593507
+    second: Enemy_1_Animations_Frames_Bright_Array_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 1636
+        width: 484
+        height: 508
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5c646c1091d297e0800000000000000
+      internalID: -1760114087466603429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_1
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 1644
+        width: 412
+        height: 482
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 172bbb1631104c6a0800000000000000
+      internalID: -6430013185222528399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_2
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 1672
+        width: 542
+        height: 414
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aed7e05f822cec90800000000000000
+      internalID: -7139293310356037984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_3
+      rect:
+        serializedVersion: 2
+        x: 1674
+        y: 1692
+        width: 423
+        height: 468
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c72cdea52a8ad21a0800000000000000
+      internalID: -6832619644387474820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_4
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 1083
+        width: 462
+        height: 535
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35c3f932a9a5f23f0800000000000000
+      internalID: -923419780518560685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_5
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 1114
+        width: 463
+        height: 452
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d07c82ebd2ba2ed0800000000000000
+      internalID: -2437939590799265583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_6
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 1166
+        width: 522
+        height: 379
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b8415f24a8978af0800000000000000
+      internalID: -394178611435714378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_7
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 1094
+        width: 416
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69bf8ad99dcdc5770800000000000000
+      internalID: 8600992215581916054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 623
+        width: 541
+        height: 374
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1860f80e041ce8a0800000000000000
+      internalID: -6274618130321872869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_9
+      rect:
+        serializedVersion: 2
+        x: 1693
+        y: 471
+        width: 27
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dd07cbe26d6bc1e0800000000000000
+      internalID: -2176525723273589295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_10
+      rect:
+        serializedVersion: 2
+        x: 1725
+        y: 471
+        width: 19
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 547ff1f2dc518c590800000000000000
+      internalID: -7653843595713054907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_11
+      rect:
+        serializedVersion: 2
+        x: 1745
+        y: 471
+        width: 33
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 029d8017a5e1cde90800000000000000
+      internalID: -6999686347048298208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_12
+      rect:
+        serializedVersion: 2
+        x: 1784
+        y: 471
+        width: 49
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5519d422cccb680d0800000000000000
+      internalID: -3420839282006453931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_13
+      rect:
+        serializedVersion: 2
+        x: 1836
+        y: 471
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6119bf56a3209f4f0800000000000000
+      internalID: -794601409411837674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_14
+      rect:
+        serializedVersion: 2
+        x: 1889
+        y: 471
+        width: 47
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46a9077db8d41afe0800000000000000
+      internalID: -1179576364384085404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_15
+      rect:
+        serializedVersion: 2
+        x: 1941
+        y: 471
+        width: 19
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c61559d57af6c4560800000000000000
+      internalID: 7299331860681019756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_16
+      rect:
+        serializedVersion: 2
+        x: 1961
+        y: 471
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64285abab692422e0800000000000000
+      internalID: -2151549179558264250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_17
+      rect:
+        serializedVersion: 2
+        x: 1997
+        y: 471
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 574ca776bd3c4c7f0800000000000000
+      internalID: -593133903804709771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_18
+      rect:
+        serializedVersion: 2
+        x: 2032
+        y: 471
+        width: 19
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9ecdaf53dbd1e000800000000000000
+      internalID: 63573570649706140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_19
+      rect:
+        serializedVersion: 2
+        x: 2054
+        y: 488
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d512650fb1faea570800000000000000
+      internalID: 8479907682916376925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_20
+      rect:
+        serializedVersion: 2
+        x: 2054
+        y: 471
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7b9b193609813c00800000000000000
+      internalID: 878634062134877055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_21
+      rect:
+        serializedVersion: 2
+        x: 1671
+        y: 311
+        width: 56
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8ffce5d9c97d63e0800000000000000
+      internalID: -2058855546853982326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_22
+      rect:
+        serializedVersion: 2
+        x: 1794
+        y: 310
+        width: 50
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7c0f4502ac831760800000000000000
+      internalID: 7427434837965737086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_23
+      rect:
+        serializedVersion: 2
+        x: 1909
+        y: 309
+        width: 61
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fef348b9c60edd8e0800000000000000
+      internalID: -1666929529986990097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_24
+      rect:
+        serializedVersion: 2
+        x: 2032
+        y: 310
+        width: 56
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3b785e7fb75d0bf0800000000000000
+      internalID: -356532315522303171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_25
+      rect:
+        serializedVersion: 2
+        x: 1674
+        y: 183
+        width: 50
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b67eb92c2c17a650800000000000000
+      internalID: 6243990384376968887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_26
+      rect:
+        serializedVersion: 2
+        x: 1789
+        y: 184
+        width: 57
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 548d09324486eaa50800000000000000
+      internalID: 6534274751224928325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_27
+      rect:
+        serializedVersion: 2
+        x: 1913
+        y: 183
+        width: 52
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66ad3f5d9e8851740800000000000000
+      internalID: 5122150689102092902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_28
+      rect:
+        serializedVersion: 2
+        x: 2033
+        y: 184
+        width: 53
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0f95658b7a0c5cf0800000000000000
+      internalID: -262323152659046646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_1_Animations_Frames_Bright_Array_29
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 58
+        width: 28
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36b534a7c376cd140800000000000000
+      internalID: 4745781616788593507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Enemy_1_Animations_Frames_Bright_Array_0: -1760114087466603429
+      Enemy_1_Animations_Frames_Bright_Array_1: -6430013185222528399
+      Enemy_1_Animations_Frames_Bright_Array_10: -7653843595713054907
+      Enemy_1_Animations_Frames_Bright_Array_11: -6999686347048298208
+      Enemy_1_Animations_Frames_Bright_Array_12: -3420839282006453931
+      Enemy_1_Animations_Frames_Bright_Array_13: -794601409411837674
+      Enemy_1_Animations_Frames_Bright_Array_14: -1179576364384085404
+      Enemy_1_Animations_Frames_Bright_Array_15: 7299331860681019756
+      Enemy_1_Animations_Frames_Bright_Array_16: -2151549179558264250
+      Enemy_1_Animations_Frames_Bright_Array_17: -593133903804709771
+      Enemy_1_Animations_Frames_Bright_Array_18: 63573570649706140
+      Enemy_1_Animations_Frames_Bright_Array_19: 8479907682916376925
+      Enemy_1_Animations_Frames_Bright_Array_2: -7139293310356037984
+      Enemy_1_Animations_Frames_Bright_Array_20: 878634062134877055
+      Enemy_1_Animations_Frames_Bright_Array_21: -2058855546853982326
+      Enemy_1_Animations_Frames_Bright_Array_22: 7427434837965737086
+      Enemy_1_Animations_Frames_Bright_Array_23: -1666929529986990097
+      Enemy_1_Animations_Frames_Bright_Array_24: -356532315522303171
+      Enemy_1_Animations_Frames_Bright_Array_25: 6243990384376968887
+      Enemy_1_Animations_Frames_Bright_Array_26: 6534274751224928325
+      Enemy_1_Animations_Frames_Bright_Array_27: 5122150689102092902
+      Enemy_1_Animations_Frames_Bright_Array_28: -262323152659046646
+      Enemy_1_Animations_Frames_Bright_Array_29: 4745781616788593507
+      Enemy_1_Animations_Frames_Bright_Array_3: -6832619644387474820
+      Enemy_1_Animations_Frames_Bright_Array_4: -923419780518560685
+      Enemy_1_Animations_Frames_Bright_Array_5: -2437939590799265583
+      Enemy_1_Animations_Frames_Bright_Array_6: -394178611435714378
+      Enemy_1_Animations_Frames_Bright_Array_7: 8600992215581916054
+      Enemy_1_Animations_Frames_Bright_Array_8: -6274618130321872869
+      Enemy_1_Animations_Frames_Bright_Array_9: -2176525723273589295
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

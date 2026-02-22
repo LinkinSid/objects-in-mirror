@@ -14,6 +14,9 @@ public class Switch : MonoBehaviour
 
         used = true;
 
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.menuOpenSfx);
+
         if (sentry != null)
         {
             SpriteRenderer sentrySr = sentry.GetComponent<SpriteRenderer>();

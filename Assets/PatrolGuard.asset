@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PatrolGuard
   m_EditorClassIdentifier: Assembly-CSharp::EnemyConfig
   enemyName: Patrol guard
-  sprite: {fileID: -262721789967192588, guid: 35bd97b45072142c188bb4427f6c0dc9, type: 3}
+  sprite: {fileID: -7948088732724366337, guid: e41c7cc45e2463c2e91d18590bff6377, type: 3}
   deathSprite: {fileID: 582917731, guid: d7536f919404442d0b364bbaf0fe941b, type: 3}
   moveSpeed: 2
   turnSpeed: 5
@@ -24,6 +24,7 @@ MonoBehaviour:
   visionRange: 4
   visionHalfAngle: 30
   canSeeShadowSwimmer: 0
+  visionConeColor: {r: 0, g: 0, b: 0, a: 0}
   alertDuration: 3
   alertSpeedMultiplier: 2
   alertsNearbyEnemies: 0
@@ -34,6 +35,7 @@ MonoBehaviour:
   waypointReachDist: 0.3
   wanderMode: 1
   wanderRadius: 4
+  passiveAwarenessRange: 50
   maxHealth: 100
   contactDamage: 15
   invincibilityDuration: 1.5

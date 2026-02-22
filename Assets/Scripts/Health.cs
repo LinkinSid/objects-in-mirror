@@ -66,6 +66,9 @@ public class Health : MonoBehaviour
 
         currentHealth = Mathf.Max(currentHealth - amount, 0f);
 
+        if (isPlayer && AudioManager.Instance != null)
+            AudioManager.Instance.PlayDamageSFX();
+
         if (currentHealth <= 0f)
             Die();
         else if (invincibilityDuration > 0f)
@@ -75,6 +78,16 @@ public class Health : MonoBehaviour
     void Die()
     {
         isDead = true;
+
+        if (AudioManager.Instance != null)
+        {
+            if (isPlayer)
+                AudioManager.Instance.PlayDeathSFX();
+            else if (GetComponent<BossController>() != null)
+                AudioManager.Instance.PlayBossDeathSFX();
+            else if (GetComponent<EnemyScript>() != null)
+                AudioManager.Instance.PlayMonsterDeathSFX();
+        }
 
         if (deathSprite != null && sr != null)
         {
@@ -123,6 +136,9 @@ public class Health : MonoBehaviour
         if (shadow != null && shadow.isShadowSwimming
             && shadow.stress < shadow.maxStressValue)
             return;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayAttackSFX();
 
         TakeDamage(enemyContactDamage);
     }

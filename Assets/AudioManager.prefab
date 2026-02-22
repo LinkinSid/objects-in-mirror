@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5551587236819405645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7975854319200707452}
+  - component: {fileID: 4629683431721236260}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7975854319200707452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551587236819405645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.32424, y: 1.15648, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4629683431721236260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551587236819405645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6201b7b3881972596f808c6c9bf4ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  menuMusic: {fileID: 8300000, guid: 0bc75d8f0c62b647e82d5041cd3cfb2e, type: 3}
+  standardMusic: {fileID: 8300000, guid: 7c31cd1ba1e7cac93ae5706ac98cabab, type: 3}
+  chaseMusic: {fileID: 8300000, guid: 17965921a480503b1bcafe191f108a7f, type: 3}
+  bossMusic: {fileID: 8300000, guid: 4ffa9e98aa46b6d8d919fb075f10c5a7, type: 3}
+  postBossMusic: {fileID: 8300000, guid: d02a8424bc60bc40fa1ec7ba28bbe9ef, type: 3}
+  damageSfx: {fileID: 8300000, guid: aec527f124534002c8e8ee133165e700, type: 3}
+  footstepsSfx: {fileID: 8300000, guid: d8215f92de33d5a2e8ffcf7140b6ff96, type: 3}
+  runningFootstepsSfx: {fileID: 8300000, guid: bc45da531d7059badbdb7708e9b11a67, type: 3}
+  swimSfx: {fileID: 8300000, guid: b8ffe7f22be8d64b0aff66e6cd1a45d9, type: 3}
+  monsterSpottedSfx: {fileID: 8300000, guid: ccd7f18e979fe1b2b937eebd9248bd94, type: 3}
+  bossRoarSfx: {fileID: 8300000, guid: 9a53003c56b021faa841d59fd979d1dd, type: 3}
+  bossGruntSfx: {fileID: 8300000, guid: 1d02748d4f8f9b3ae93e3094488d0a22, type: 3}
+  speechBlipSfx: {fileID: 8300000, guid: 6d538599a2ca9e6d9aef02dd22280d77, type: 3}
+  menuOpenSfx: {fileID: 8300000, guid: 5fa2a8088078c2645ad64ce2b089dc45, type: 3}
+  menuScrollSfx: {fileID: 8300000, guid: 5edc1c5829e07f7ac82f75aad8a22629, type: 3}
+  roomChangeSfx: {fileID: 8300000, guid: 1dbf63133ac6b94949a209a829da63f1, type: 3}
+  meowSfx: {fileID: 8300000, guid: 6c866fb730eb70d138ffb3effb782223, type: 3}
+  dashSfx: {fileID: 8300000, guid: ba99bd54da9625e38b3918b3c1bb0e02, type: 3}
+  dangerZoneBlastSfx: {fileID: 8300000, guid: a686f69bbe16dd41b9c26f322ab4be60, type: 3}
+  attackSfx: {fileID: 8300000, guid: afcec592eb67a269fbbc76d6730a3453, type: 3}
+  bossAttackSfx: {fileID: 8300000, guid: cbd2f0ff8a79eae3583ee72254ba2a74, type: 3}
+  deathSfx: {fileID: 8300000, guid: c8b09d8dbf8c5cf069cd802f1a4583c3, type: 3}
+  monsterDeathSfx: {fileID: 8300000, guid: 951a6bbf717acee368ba78d699cfde54, type: 3}
+  bossDeathSfx: {fileID: 8300000, guid: 7b765715e54f73a819b8c240458d7f6b, type: 3}
+  monsterAmbientSfx:
+  - {fileID: 8300000, guid: 1c3774915ed6bd600a839031e0e4cb09, type: 3}
+  - {fileID: 8300000, guid: 3aef742bb491e2f66b0e8b531b416074, type: 3}
+  - {fileID: 8300000, guid: 418493ac954f2c5d78709872b5c3d505, type: 3}
+  musicVolume: 0.9
+  sfxVolume: 0.7
+  crossfadeDuration: 1.5
+  heavenLoopEnd: 161.22
+  heavenLoopStart: 14.65

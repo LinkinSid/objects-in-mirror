@@ -7,13 +7,15 @@ public class DangerZone : MonoBehaviour
     float delay;
     float timer;
     Health targetHealth;
+    CameraFollow cam;
     SpriteRenderer sr;
 
     static Sprite circleSprite;
+    static int lastDetonateFrame = -1;
 
     public static void Spawn(
         Vector2 position, float radius, float damage,
-        float delay, Health targetHealth)
+        float delay, Health targetHealth, CameraFollow cam = null)
     {
         var go = new GameObject("DangerZone");
         go.transform.position = position;
@@ -24,6 +26,7 @@ public class DangerZone : MonoBehaviour
         zone.delay = delay;
         zone.timer = delay;
         zone.targetHealth = targetHealth;
+        zone.cam = cam;
 
         zone.sr = go.AddComponent<SpriteRenderer>();
         zone.sr.sprite = GetCircleSprite();
@@ -50,6 +53,18 @@ public class DangerZone : MonoBehaviour
     void Detonate()
     {
         sr.color = new Color(0f, 0.6f, 1f, 0.8f);
+
+        // Only play SFX + shake once per batch (all zones detonate on the same frame)
+        if (lastDetonateFrame != Time.frameCount)
+        {
+            lastDetonateFrame = Time.frameCount;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayDangerZoneBlastSFX();
+
+            if (cam != null)
+                cam.Shake(0.25f, 0.2f);
+        }
 
         float dist = Vector2.Distance(transform.position, targetHealth.transform.position);
         if (dist <= radius)

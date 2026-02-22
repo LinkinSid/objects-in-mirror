@@ -43,7 +43,7 @@ public class EnemyConfig : ScriptableObject
     [Header("Pathfinding")]
     public float cellSize = 0.5f;
     public float pathRecalcInterval = 0.5f;
-    public float gridBufferMultiplier = 1.8f;
+    public float gridBufferMultiplier = 1.1f;
     public float waypointReachDist = 0.3f;
 
     [Header("Wander")]
