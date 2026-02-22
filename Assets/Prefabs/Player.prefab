@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 8844989758377578143}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,8 +134,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00015243876, y: -0.012383344}
-  m_Size: {x: 0.07195513, y: 0.15840593}
+  m_Offset: {x: -0.0041826963, y: -0.30500996}
+  m_Size: {x: 0.49680567, y: 0.8997266}
   m_Direction: 0
 --- !u!50 &6646868642981917168
 Rigidbody2D:
@@ -206,10 +206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 295f3e3d78eccf7b39847901b7145677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
-  moveSpeed: 5
+  walkSpeed: 3
+  runSpeed: 6
+  dashDistance: 3
+  dashDuration: 0.2
   swimSprite: {fileID: 3839611741517165852, guid: 45ca3cdad7ca2dc17a3577c5669686bf, type: 3}
   swimPromptText: {fileID: 0}
-  walkScale: 0.88
 --- !u!95 &2850333386571522839
 Animator:
   serializedVersion: 7
