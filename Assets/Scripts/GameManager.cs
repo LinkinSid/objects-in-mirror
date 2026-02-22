@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     public string mainMenuScene = "MainMenu";
     public string firstLevelScene = "Room-1";
 
+    [HideInInspector]
+    public bool bossChaseActive;
+
     private static GameManager _instance;
 
     void Awake()
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour
     {
         IsPaused = false;
         Time.timeScale = 1f;
+        bossChaseActive = false;
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlayRoomChangeSFX();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -65,6 +69,7 @@ public class GameManager : MonoBehaviour
     {
         IsPaused = false;
         Time.timeScale = 1f;
+        bossChaseActive = false;
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlayRoomChangeSFX();
         SceneManager.LoadScene(mainMenuScene);

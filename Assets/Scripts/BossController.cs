@@ -57,10 +57,31 @@ public class BossController : MonoBehaviour
 
         dangerZoneTimer = dangerZoneInterval;
 
-        // Disable animator until boss appears on screen;
-        // spawn is the default state so it plays when enabled
-        if (animator != null)
-            animator.enabled = false;
+        // Let boss pass through obstacles
+        Collider2D bossCol = GetComponent<Collider2D>();
+        if (bossCol != null)
+        {
+            foreach (var obs in FindObjectsByType<Collider2D>(FindObjectsSortMode.None))
+            {
+                if (obs.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+                    Physics2D.IgnoreCollision(bossCol, obs);
+            }
+        }
+
+        // Retreat rooms: boss chase is already active, skip spawn animation
+        if (GameManager.Instance != null && GameManager.Instance.bossChaseActive)
+        {
+            chaseStarted = true;
+            if (animator != null)
+                animator.enabled = true;
+        }
+        else
+        {
+            // Disable animator until boss appears on screen;
+            // spawn is the default state so it plays when enabled
+            if (animator != null)
+                animator.enabled = false;
+        }
     }
 
     void Update()
@@ -112,6 +133,10 @@ public class BossController : MonoBehaviour
     {
         spawning = false;
         chaseStarted = true;
+
+        // Unlock entrances for the retreat
+        if (GameManager.Instance != null)
+            GameManager.Instance.bossChaseActive = true;
     }
 
     void UpdateChase()
