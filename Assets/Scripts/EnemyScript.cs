@@ -17,7 +17,6 @@ public class EnemyScript : MonoBehaviour
     private float wanderRadius;
     private float cellSize;
     private float pathRecalcInterval;
-    private float gridBufferMultiplier;
     private float waypointReachDist;
     private float passiveAwarenessRange;
 
@@ -25,6 +24,7 @@ public class EnemyScript : MonoBehaviour
     private Collider2D myCollider;
     private Collider2D playerCollider;
     private ShadowDetector playerShadow;
+    private Health playerHealth;
     private Vector2 currentDir;
 
     // Alert state
@@ -46,6 +46,10 @@ public class EnemyScript : MonoBehaviour
 
     // Cached health
     private Health myHealth;
+    private Animator anim;
+
+    // Monster ambient sounds
+    private float ambientTimer;
 
     // Vision cone mesh
     private MeshFilter coneMeshFilter;
@@ -70,9 +74,24 @@ public class EnemyScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         myHealth = GetComponent<Health>();
-        myCollider = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
+
+        // Ensure a small circle collider for navigation — sprite-sized colliders
+        // are too large to fit through corridors and catch on corners
+        CircleCollider2D circle = GetComponent<CircleCollider2D>();
+        if (circle == null)
+        {
+            Collider2D existing = GetComponent<Collider2D>();
+            if (existing != null)
+                Destroy(existing);
+
+            circle = gameObject.AddComponent<CircleCollider2D>();
+            circle.radius = 0.25f;
+        }
+        myCollider = circle;
         playerCollider = player.GetComponent<Collider2D>();
         playerShadow = player.GetComponent<ShadowDetector>();
+        playerHealth = player.GetComponent<Health>();
 
         // Apply config
         if (config != null)
@@ -86,7 +105,6 @@ public class EnemyScript : MonoBehaviour
             wanderRadius = config.wanderRadius;
             cellSize = config.cellSize > 0 ? config.cellSize : 0.5f;
             pathRecalcInterval = config.pathRecalcInterval;
-            gridBufferMultiplier = config.gridBufferMultiplier;
             waypointReachDist = config.waypointReachDist;
             passiveAwarenessRange = config.passiveAwarenessRange;
 
@@ -109,7 +127,6 @@ public class EnemyScript : MonoBehaviour
             wanderRadius = 4f;
             cellSize = 0.5f;
             pathRecalcInterval = 0.5f;
-            gridBufferMultiplier = 1.8f;
             waypointReachDist = 0.3f;
             passiveAwarenessRange = 50f;
         }
@@ -136,7 +153,7 @@ public class EnemyScript : MonoBehaviour
         grid = new bool[gridWidth, gridHeight];
         trapGrid = new bool[gridWidth, gridHeight];
 
-        float checkRadius = myCollider.bounds.extents.x * gridBufferMultiplier;
+        float checkRadius = cellSize * 0.4f;
 
         for (int x = 0; x < gridWidth; x++)
         {
@@ -148,13 +165,19 @@ public class EnemyScript : MonoBehaviour
                 bool hasTrap = false;
                 foreach (Collider2D hit in hits)
                 {
-                    if (hit != myCollider && hit != playerCollider && hit.gameObject != backgroundCollider.gameObject && !hit.isTrigger)
+                    if (hit == myCollider || hit == playerCollider) continue;
+
+                    if (hit.isTrigger)
                     {
-                        walkable = false;
-                        break;
+                        if (hit.GetComponent<Trap>() != null)
+                            hasTrap = true;
+                        continue;
                     }
-                    if (hit.isTrigger && hit.GetComponent<Trap>() != null)
-                        hasTrap = true;
+
+                    if (hit.gameObject == backgroundCollider.gameObject) continue;
+
+                    walkable = false;
+                    break;
                 }
                 grid[x, y] = walkable;
                 trapGrid[x, y] = hasTrap;
@@ -245,8 +268,15 @@ public class EnemyScript : MonoBehaviour
                 isAlerted = true;
                 moveSpeed = baseMoveSpeed * alertSpeedMultiplier;
                 pathRecalcInterval = basePathRecalcInterval / 2f;
+                if (anim != null) anim.speed = 2f;
                 RecalculatePath();
                 pathTimer = pathRecalcInterval;
+
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayMonsterSpottedSFX();
+                    AudioManager.Instance.EnemyAlertStarted();
+                }
             }
             alertTimer = alertDuration;
         }
@@ -260,6 +290,17 @@ public class EnemyScript : MonoBehaviour
                 isAlerted = false;
                 moveSpeed = baseMoveSpeed;
                 pathRecalcInterval = basePathRecalcInterval;
+                if (anim != null) anim.speed = 1f;
+                RecalculatePath();
+                pathTimer = pathRecalcInterval;
+
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.EnemyAlertEnded();
+
+                // Snap direction to new path so the enemy doesn't keep
+                // pushing into a wall with the old chase direction
+                if (path.Count > 0)
+                    currentDir = (path[0] - rb.position).normalized;
             }
         }
 
@@ -275,6 +316,26 @@ public class EnemyScript : MonoBehaviour
         }
 
         UpdateConeMesh();
+
+        // Monster ambient sounds (only when idle / not chasing / player alive)
+        bool playerDead = playerHealth != null && playerHealth.isDead;
+        if (!isAlerted && !playerDead && AudioManager.Instance != null
+            && AudioManager.Instance.monsterAmbientSfx != null
+            && AudioManager.Instance.monsterAmbientSfx.Length > 0)
+        {
+            ambientTimer -= Time.deltaTime;
+            if (ambientTimer <= 0f)
+            {
+                ambientTimer = Random.Range(4f, 7f);
+                var clips = AudioManager.Instance.monsterAmbientSfx;
+                AudioManager.Instance.PlaySFX(clips[Random.Range(0, clips.Length)], 0.4f);
+            }
+        }
+        else
+        {
+            // Reset timer so it doesn't fire immediately after alert ends
+            ambientTimer = Random.Range(2f, 5f);
+        }
     }
 
     bool CanSeePlayer()
@@ -297,12 +358,15 @@ public class EnemyScript : MonoBehaviour
         if (distance > visionRange)
             return false;
 
-        // Proximity mode: skip angle check (360 awareness)
+        // Vision cone + 1-unit proximity ring (360 awareness at close range)
         if (config == null || config.detectionMode == DetectionMode.VisionCone)
         {
-            float angle = Vector2.Angle(currentDir, toPlayer);
-            if (angle > visionHalfAngle)
-                return false;
+            if (distance > 2f)
+            {
+                float angle = Vector2.Angle(currentDir, toPlayer);
+                if (angle > visionHalfAngle)
+                    return false;
+            }
         }
 
         // Raycast LOS check (shared by all modes)
@@ -337,10 +401,20 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        if (isAlerted && AudioManager.Instance != null)
+            AudioManager.Instance.EnemyAlertEnded();
+    }
+
     public void ReceiveAlert()
     {
+        bool wasAlerted = isAlerted;
         isAlerted = true;
         alertTimer = alertDuration;
+
+        if (!wasAlerted && AudioManager.Instance != null)
+            AudioManager.Instance.EnemyAlertStarted();
         moveSpeed = baseMoveSpeed * alertSpeedMultiplier;
         pathRecalcInterval = basePathRecalcInterval / 2f;
         RecalculatePath();
@@ -366,10 +440,7 @@ public class EnemyScript : MonoBehaviour
         else if (config != null && config.wanderMode == WanderMode.Patrol
             && patrolWaypoints != null && patrolWaypoints.Length > 0)
         {
-            // Patrol waypoints: always follow when not alerted
-            if (Vector2.Distance(rb.position, patrolWaypoints[patrolIndex].position) < waypointReachDist)
-                patrolIndex = (patrolIndex + 1) % patrolWaypoints.Length;
-
+            // Patrol: just path to current waypoint (advancement happens in FixedUpdate)
             WorldToGrid(patrolWaypoints[patrolIndex].position, out endX, out endY);
         }
         else if (IsPlayerHidden())
@@ -453,71 +524,75 @@ public class EnemyScript : MonoBehaviour
         }
 
         if (grid == null || path.Count == 0)
+        {
+            rb.linearVelocity = Vector2.zero;
             return;
+        }
 
+        bool isPatrol = !isAlerted && config != null && config.wanderMode == WanderMode.Patrol
+            && patrolWaypoints != null && patrolWaypoints.Length > 0;
+
+        // Advance through A* path nodes
         if (pathIndex < path.Count && Vector2.Distance(rb.position, path[pathIndex]) < waypointReachDist)
             pathIndex++;
 
-        bool wandering = !isAlerted && (IsPlayerHidden()
-            || (config != null && config.wanderMode == WanderMode.Patrol
-                && patrolWaypoints != null && patrolWaypoints.Length > 0));
+        // Patrol: advance waypoint when enemy reaches vicinity of current waypoint
+        if (isPatrol && Vector2.Distance(rb.position, patrolWaypoints[patrolIndex].position) < cellSize)
+        {
+            patrolIndex = (patrolIndex + 1) % patrolWaypoints.Length;
+            RecalculatePath();
+            pathTimer = pathRecalcInterval;
+            if (path.Count > 0)
+                currentDir = (path[0] - rb.position).normalized;
+        }
+
+        bool wandering = isPatrol || (!isAlerted && IsPlayerHidden());
         float speed = wandering ? baseMoveSpeed : moveSpeed;
 
         Vector2 targetDir;
         if (pathIndex < path.Count)
         {
             targetDir = (path[pathIndex] - rb.position).normalized;
-            // Smooth turning while wandering, snap while chasing
             if (wandering)
                 currentDir = Vector2.Lerp(currentDir, targetDir, turnSpeed * Time.fixedDeltaTime).normalized;
             else
                 currentDir = targetDir;
         }
+        else if (isPatrol)
+        {
+            // Path exhausted — recalculate A*
+            RecalculatePath();
+            pathTimer = pathRecalcInterval;
+            if (path.Count > 0)
+                currentDir = (path[0] - rb.position).normalized;
+            else
+            {
+                rb.linearVelocity = Vector2.zero;
+                return;
+            }
+        }
         else if (!wandering)
         {
-            // Smooth turn toward player only when chasing
-            targetDir = ((Vector2)player.position - rb.position).normalized;
-            currentDir = Vector2.Lerp(currentDir, targetDir, turnSpeed * Time.fixedDeltaTime).normalized;
+            // Path exhausted while chasing — recalculate A*
+            RecalculatePath();
+            pathTimer = pathRecalcInterval;
+            if (path.Count > 0)
+                currentDir = (path[0] - rb.position).normalized;
         }
         else
         {
-            // Reached wander target, immediately pick a new one
             hasWanderTarget = false;
             RecalculatePath();
             pathTimer = pathRecalcInterval;
-            if (path.Count == 0) return;
+            if (path.Count == 0)
+            {
+                rb.linearVelocity = Vector2.zero;
+                return;
+            }
             currentDir = (path[0] - rb.position).normalized;
         }
 
         rb.linearVelocity = currentDir * speed;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        NudgeAndRepath(collision);
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        NudgeAndRepath(collision);
-    }
-
-    void NudgeAndRepath(Collision2D collision)
-    {
-        if (grid == null) return;
-
-        // Push away from the obstacle using the contact normal
-        Vector2 pushDir = Vector2.zero;
-        foreach (ContactPoint2D contact in collision.contacts)
-            pushDir += contact.normal;
-        if (pushDir.sqrMagnitude > 0f)
-            rb.position += pushDir.normalized * 0.05f;
-
-        RecalculatePath();
-        pathTimer = pathRecalcInterval;
-
-        if (path.Count > 0 && pathIndex < path.Count)
-            currentDir = (path[pathIndex] - rb.position).normalized;
     }
 
     // A* pathfinding
@@ -740,6 +815,18 @@ public class EnemyScript : MonoBehaviour
             Vector2 point = origin + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * visionRange;
             Gizmos.DrawLine(prev, point);
             prev = point;
+        }
+
+        // Proximity ring (2-unit 360 awareness)
+        Gizmos.color = isAlerted ? new Color(1f, 0.3f, 0.3f, 0.4f) : new Color(1f, 1f, 0f, 0.4f);
+        int ringSegments = 32;
+        Vector2 ringPrev = origin + Vector2.right * 2f;
+        for (int i = 1; i <= ringSegments; i++)
+        {
+            float a = (float)i / ringSegments * 2f * Mathf.PI;
+            Vector2 point = origin + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * 2f;
+            Gizmos.DrawLine(ringPrev, point);
+            ringPrev = point;
         }
     }
 }

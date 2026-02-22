@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
     {
         IsPaused = false;
         Time.timeScale = 1f;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayRoomChangeSFX();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -63,6 +65,8 @@ public class GameManager : MonoBehaviour
     {
         IsPaused = false;
         Time.timeScale = 1f;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayRoomChangeSFX();
         SceneManager.LoadScene(mainMenuScene);
     }
 
@@ -70,6 +74,8 @@ public class GameManager : MonoBehaviour
     {
         IsPaused = false;
         Time.timeScale = 1f;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayRoomChangeSFX();
         SceneManager.LoadScene(sceneName);
     }
 

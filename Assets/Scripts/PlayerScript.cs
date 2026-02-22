@@ -23,7 +23,6 @@ public class PlayerScript : MonoBehaviour
     private bool isRunning;
     private SpriteRenderer sr;
     private ShadowDetector shadowDetector;
-    private Sprite normalSprite;
     private InputAction interactAction;
     private InputAction sprintAction;
     private InputAction dashAction;
@@ -36,6 +35,8 @@ public class PlayerScript : MonoBehaviour
 
     private Animator animator;
     private Vector2 lastMoveDir = Vector2.down; // default facing down
+    private MaterialPropertyBlock mpb;
+    private static readonly int SwimmingProp = Shader.PropertyToID("_Swimming");
 
     void Start()
     {
@@ -49,7 +50,7 @@ public class PlayerScript : MonoBehaviour
         if (animator != null)
             animator.updateMode = AnimatorUpdateMode.UnscaledTime;
 
-        normalSprite = sr.sprite;
+        mpb = new MaterialPropertyBlock();
 
         if (swimPromptText != null)
             swimPromptText.gameObject.SetActive(false);
@@ -82,6 +83,9 @@ public class PlayerScript : MonoBehaviour
         {
             isDashing = true;
             dashTimeRemaining = dashDuration;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayDashSFX();
         }
 
         if (isDashing)
@@ -116,8 +120,18 @@ public class PlayerScript : MonoBehaviour
         {
             bool justPressed = interactAction != null && interactAction.WasPressedThisFrame();
 
-            if (justPressed && !onCooldown)
-                swimToggled = !swimToggled;
+            if (justPressed)
+            {
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.meowSfx, 10f);
+
+                if (!onCooldown)
+                {
+                    swimToggled = !swimToggled;
+                    if (swimToggled && shadowDetector.isInShadow && AudioManager.Instance != null)
+                        AudioManager.Instance.PlaySwimSFX();
+                }
+            }
 
             if (shadowDetector.stress >= shadowDetector.maxStressValue)
             {
@@ -146,21 +160,40 @@ public class PlayerScript : MonoBehaviour
             SetEnemyCollisionIgnored(passThrough);
         }
 
+        // Footsteps
+        if (AudioManager.Instance != null)
+        {
+            if (isMoving && !swimming)
+                AudioManager.Instance.StartFootsteps(isRunning);
+            else
+                AudioManager.Instance.StopFootsteps();
+        }
+
         UpdateSprite();
         UpdateSwimPrompt();
     }
 
     void UpdateSprite()
     {
-        if (sr == null || shadowDetector == null) return;
+        if (sr == null || shadowDetector == null || mpb == null) return;
 
         bool canSwim = shadowDetector.isShadowSwimming
             && shadowDetector.stress < shadowDetector.maxStressValue;
 
-        if (canSwim && swimSprite != null)
-            sr.sprite = swimSprite;
-        else
-            sr.sprite = normalSprite;
+        sr.GetPropertyBlock(mpb);
+        mpb.SetFloat(SwimmingProp, canSwim ? 1f : 0f);
+        sr.SetPropertyBlock(mpb);
+    }
+
+    void OnDisable()
+    {
+        // Reset shader to normal mode when disabled (e.g., on death)
+        if (sr != null && mpb != null)
+        {
+            sr.GetPropertyBlock(mpb);
+            mpb.SetFloat(SwimmingProp, 0f);
+            sr.SetPropertyBlock(mpb);
+        }
     }
 
     void UpdateSwimPrompt()

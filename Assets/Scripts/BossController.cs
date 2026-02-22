@@ -7,16 +7,14 @@ public class BossController : MonoBehaviour
 
     [Header("Chase")]
     public float chaseSpeed = 6f;
-    public float initialDelay = 2f;
-
     [Header("Danger Zones")]
     public float dangerZoneInterval = 3f;
     public int dangerZoneCount = 3;
     public float dangerZoneRadius = 1.5f;
     public float dangerZoneDamage = 20f;
     public float dangerZoneTelegraph = 1.5f;
-    public float dangerZoneAheadDistance = 4f;
-    public float dangerZoneSpread = 4f;
+    public float dangerZoneAheadDistance = 2f;
+    public float dangerZoneSpread = 2.5f;
 
     [Header("Proximity Shake")]
     public float shakeMaxDistance = 10f;
@@ -29,7 +27,6 @@ public class BossController : MonoBehaviour
     // State
     float dangerZoneTimer;
     float contactTimer;
-    float delayTimer;
     bool chaseStarted;
 
     // Cached
@@ -47,7 +44,6 @@ public class BossController : MonoBehaviour
         playerShadow = player.GetComponent<ShadowDetector>();
         playerRb = player.GetComponent<Rigidbody2D>();
 
-        delayTimer = initialDelay;
         dangerZoneTimer = dangerZoneInterval;
     }
 
@@ -61,15 +57,27 @@ public class BossController : MonoBehaviour
 
         if (!chaseStarted)
         {
-            delayTimer -= Time.deltaTime;
-            if (delayTimer <= 0)
+            // Start chase when boss is visible on camera
+            Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+            bool onScreen = viewPos.x >= 0f && viewPos.x <= 1f
+                         && viewPos.y >= 0f && viewPos.y <= 1f
+                         && viewPos.z > 0f;
+
+            if (onScreen)
+            {
                 chaseStarted = true;
+
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayBossRoarSFX();
+                    AudioManager.Instance.PlayBossMusic();
+                }
+            }
             return;
         }
 
         UpdateChase();
         UpdateDangerZones();
-        UpdateProximityShake();
 
         if (contactTimer > 0)
             contactTimer -= Time.deltaTime;
@@ -106,24 +114,15 @@ public class BossController : MonoBehaviour
 
             DangerZone.Spawn(
                 spawnPos, dangerZoneRadius, dangerZoneDamage,
-                dangerZoneTelegraph, playerHealth
+                dangerZoneTelegraph, playerHealth, cam
             );
         }
 
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayBossGruntSFX();
+
         if (cam != null)
             cam.Shake(0.1f, 0.2f);
-    }
-
-    void UpdateProximityShake()
-    {
-        if (cam == null) return;
-
-        float dist = Vector2.Distance(transform.position, player.position);
-        if (dist < shakeMaxDistance)
-        {
-            float t = 1f - (dist / shakeMaxDistance);
-            cam.Shake(t * t * shakeMaxIntensity, 0.05f);
-        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -148,6 +147,9 @@ public class BossController : MonoBehaviour
 
         if (playerHealth != null)
         {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayBossAttackSFX();
+
             playerHealth.TakeDamage(contactDamage);
             contactTimer = contactCooldown;
 

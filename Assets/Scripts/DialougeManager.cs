@@ -159,6 +159,8 @@ public class DialogueManager : MonoBehaviour
         foreach (char c in lines[currentLine])
         {
             dialogueText.text += c;
+            if (c != ' ' && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySpeechBlipSFX();
             yield return new WaitForSecondsRealtime(typingSpeed);
         }
 
